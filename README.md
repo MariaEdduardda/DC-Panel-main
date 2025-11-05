@@ -25,7 +25,4 @@ deactivate
 ## 2. []Lógica para gerar o relatório
 
 
-Quer que eu faça isso?
-}
-
 
