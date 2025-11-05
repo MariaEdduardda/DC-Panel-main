@@ -5,6 +5,8 @@ import time
 
 # === Configurações ===
 STREAM_URL = "srt://168.90.225.116:6053?mode=caller&latency=2000&transtype=live&passphrase=yKz585@354&pbkeylen=16"
+VIDEO_PATH = "C:/Users/User/Downloads/Ocorrências_Globo/fade/1/Ocorrência BDPE_Corte de Sinal_22082025_08h29m02s.mp4"
+SOURCE_TYPE = "file" # srt ou file
 WIDTH, HEIGHT = 640, 360 # Tamanho dos frames
 MODEL_PATH = r"C:\DC panel v1.0.0\weights\best.pt" # caminho do modelo da I.A.
 YOLO_CONF = 0.70 # Valor de Confiança da I.A.

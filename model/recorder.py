@@ -1,6 +1,6 @@
 import subprocess
 import time
-from config import STREAM_URL, SAVE_FOLDER
+from config import STREAM_URL, SAVE_FOLDER, SOURCE_TYPE
 
 MAIN_RECORD = None  # caminho do arquivo principal
 RECORD_START_TIME = None 
@@ -25,4 +25,7 @@ def start_recording():
     print(f"✅ Captura iniciada")
     return process, output_path
 
-record_process, a = start_recording()
+record_process, a = False, False
+
+if SOURCE_TYPE == "srt":
+    record_process, a = start_recording()

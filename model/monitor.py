@@ -37,7 +37,7 @@ def monitor_status(status_dict, status_lock):
         if logo_anterior is True and logo_on is False:
             print("\n🚨 Falha detectada! Registrando no banco de dados...")
 
-            tipo = "vídeo"         # pode mudar conforme tipo de detecção
+            tipo = "video"         # pode mudar conforme tipo de detecção
             gravidade = "grave"    # pode ser calculada pela IA
             origem = "Rede"        # ou G5 / RSPO
             data = datetime_str.date().isoformat()

@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import psutil
+import datetime as dt
 from ultralytics import YOLO
 #from recorder import buffer_frame, start_recording, recording_active
 from model.utils import *
@@ -97,10 +98,11 @@ def detect_yolo(model, frame_queue, status_dict, status_lock, thread_id=1):
                 logo_end = time.time()
                 logo_active = False
                 event_log.append((logo_start, logo_end))
-                if not a or not os.path.exists(a):
-                    print(f"⚠️ Arquivo principal ainda não existe: {a}")
-                else:
-                    cortar_video(a, logo_start, logo_end, SAVE_FOLDER)
+                if SOURCE_TYPE == "srt":
+                    if not a or not os.path.exists(a):
+                        print(f"⚠️ Arquivo principal ainda não existe: {a}")
+                    else:
+                        cortar_video(a, logo_start, logo_end, SAVE_FOLDER)
 
             # Imprimindo dados
             # === Atualiza status global ===
@@ -110,7 +112,8 @@ def detect_yolo(model, frame_queue, status_dict, status_lock, thread_id=1):
                     "cpu": cpu_load,
                     "yolo_time": infer_time,
                     "logo": logo_active,
-                    "datetime": {time.time()} # Variavel DEV
+                    "datetime": dt.datetime.now(), # Variavel DEV
+                    "tipo": "video"
                 }
 
         except Exception as e:
