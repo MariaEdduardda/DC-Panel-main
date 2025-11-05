@@ -1,6 +1,6 @@
 from tkinter import ttk
-from interfaceB.ui.tabela_ocorrencias import criar_tabela_ocorrencias
-from interfaceB.controllers.settings import VIDEO_PATH
+from interface.ui.tabela_ocorrencias import criar_tabela_ocorrencias
+from interface.controllers.settings import VIDEO_PATH
 def mudar_pagina(titulo, texto, frame, pagina_id=None):
     for widget in frame.winfo_children():
         widget.destroy()

@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from ttkthemes import ThemedTk # type: ignore
 from PIL import Image, ImageTk
-from interfaceB.controllers.ocorrencias_controller import imprimir_pagina, upload_arquivo_ocorrencia
-from interfaceB.ui.pages import mudar_pagina
+from interface.controllers.ocorrencias_controller import imprimir_pagina, upload_arquivo_ocorrencia
+from interface.ui.pages import mudar_pagina
 import os
 
 def iniciar_interface():

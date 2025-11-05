@@ -3,8 +3,8 @@ import datetime
 from tkinter import filedialog, messagebox
 from moviepy.video.io.VideoFileClip import VideoFileClip # type: ignore
 from database.db_functions import criar_ocorrencia, listar_ocorrencias
-from interfaceB.ui.helpers import format_duration
-from interfaceB.ui.pages import atualizar_tabela_ocorrencias
+from interface.ui.helpers import format_duration
+from interface.ui.pages import atualizar_tabela_ocorrencias
 
 def get_video_duration(path):
     try:
