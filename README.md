@@ -23,12 +23,8 @@ python3 -m interface.main
 deactivate
 ```
 
-### **Precisa ser implementado:**
+### Precisa ser implementado:
 
-## 1. []Lógica para gerar o relatório
-
-## 2. []Organizar o modulo de interface
-
-## 3. []Deixar o front responsivo
-
-## 4. []Integrar as Iniciações
+<ul>
+<li><input type="checkbox"  disabled> Lógica para gerar o relatório</li> <li><input type="checkbox" disabled> Organizar o módulo de interface</li> <li><input type="checkbox" disabled> Deixar o front responsivo</li> <li><input type="checkbox" disabled> Integrar as Iniciações</li>
+</ul>
