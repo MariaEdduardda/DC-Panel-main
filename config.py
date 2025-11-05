@@ -13,6 +13,7 @@ YOLO_CONF = 0.70 # Valor de Confiança da I.A.
 ALARM_FILE, STANDBY_FILE, STANDON_FILE = "sounds/alarm.mp3", "sounds/standby.mp3", "sounds/standon.mp3"
 SAVE_FOLDER = f"cortes/{time.strftime('%d%m%Y')}" # Pasta para salvar frames selecionados
 VOLUME = 60 # Volume das notificações
+NUM_THREADS = 1
 
 # === Configurações do corte ===
 

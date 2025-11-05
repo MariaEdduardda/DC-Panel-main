@@ -157,17 +157,26 @@ def criar_tabela_ocorrencias(frame_pai):
     tabela_frame = ttk.Frame(frame_pai)
     tabela_frame.pack(fill='both', expand=True)
 
-    colunas = ("data", "tipo", "tempo", "link")
+    colunas = ( "tipo", "descrição", "gravidade", "origem", "data", "hora", "duração", "link")
     tabela = ttk.Treeview(tabela_frame, columns=colunas, show="headings")
-    tabela.heading("data", text="Data da Ocorrência")
     tabela.heading("tipo", text="Tipo")
-    tabela.heading("tempo", text="Tempo")
+    tabela.heading("descrição", text="Descrição da Ocorrência")
+    tabela.heading("gravidade", text="Gravidade da Ocorrência")
+    tabela.heading("origem", text="Origem da Ocorrência")
+    tabela.heading("data", text="Data da Ocorrência")
+    tabela.heading("hora", text="Hora da Ocorrência")
+    tabela.heading("duração", text="Duração")
     tabela.heading("link", text="Link do Corte")
 
-    tabela.column("data", width=180, anchor="center")
-    tabela.column("tipo", width=100, anchor="center")
-    tabela.column("tempo", width=100, anchor="center")
-    tabela.column("link", width=250, anchor="center")
+    tabela.column("tipo", width=150, anchor="left")
+    tabela.column("descrição", width=150, anchor="left")
+    tabela.column("gravidade", width=150, anchor="left")
+    tabela.column("origem", width=150, anchor="left")
+    tabela.column("data", width=150, anchor="left")
+    tabela.column("hora", width=150, anchor="left")
+    tabela.column("duração", width=150, anchor="left")
+    tabela.column("link", width=150, anchor="left")
+
 
     scroll_y = ttk.Scrollbar(tabela_frame, orient="vertical", command=tabela.yview)
     tabela.configure(yscroll=scroll_y.set)
@@ -262,6 +271,7 @@ def mudar_pagina(titulo, texto, pagina_id=None, video_path=None):
     ttk.Label(header_video_frame, text=titulo, font=('Arial', 16, 'bold')).pack(side="left", padx=10)
 
     if pagina_id == "ocorrencias":
+        carregar_ocorrencias_do_banco()
         header_video_frame.destroy()
         ttk.Label(main_content_frame, text=titulo, font=('Arial', 16, 'bold')).pack(pady=10)
         criar_tabela_ocorrencias(main_content_frame)
@@ -281,12 +291,6 @@ def mudar_pagina(titulo, texto, pagina_id=None, video_path=None):
     else:
         header_video_frame.destroy()
         ttk.Label(main_content_frame, text=texto, wraplength=500).pack(padx=20, pady=10)
-    
-    if pagina_id == "ocorrencias":
-        carregar_ocorrencias_do_banco()
-        header_video_frame.destroy()
-        ttk.Label(main_content_frame, text=titulo, font=('Arial', 16, 'bold')).pack(pady=10)
-        criar_tabela_ocorrencias(main_content_frame)
 
 
 
@@ -296,13 +300,13 @@ def carregar_ocorrencias_do_banco():
     ocorrencias_data = []
     registros = listar_ocorrencias()
     for r in registros:
-        data, tipo, tempo, link = r[0], r[1], r[2], r[3]
+        id_, tipo, descricao, gravidade, origem, data, hora, duracao, usuario_id = r
         ocorrencias_data.append({
-            "data": data,
+            "data": f"{data} {hora}",
             "tipo": tipo,
-            "tempo": tempo,
-            "link": link
-    })
+            "tempo": duracao,
+            "link": descricao  # aqui a descrição vira "link" apenas para exibição
+        })
 
 
 # --- Janela Principal ---

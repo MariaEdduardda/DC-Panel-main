@@ -3,12 +3,12 @@ import time
 import psutil
 import datetime as dt
 from ultralytics import YOLO
-#from recorder import buffer_frame, start_recording, recording_active
 from model.utils import *
 from audio import play_standby, play_standon
 from config import *
 from model.recorder import a
 from colorama import Fore, Back # type: ignore
+from model.analisador import avaliar
 
 
 def detect_yolo_thread(frame_queue, thread_id, status_dict, status_lock):
@@ -70,9 +70,9 @@ def detect_yolo(model, frame_queue, status_dict, status_lock, thread_id=1):
             frame = np.frombuffer(raw_frame, np.uint8).reshape((HEIGHT, WIDTH, 3))
             FRAME_BUFFER.append(frame.copy())
 
-            results = model(frame, verbose=False, conf=YOLO_CONF)
+            results = avaliar(frame)
             t2 = time.time()
-            logo_detected = any(r.boxes for r in results)
+            logo_detected = bool(results)
 
             # Calculo de desempenho em ms
             read_time = t1 - t0
@@ -92,11 +92,14 @@ def detect_yolo(model, frame_queue, status_dict, status_lock, thread_id=1):
             if logo_detected and not logo_active:
                 logo_start = time.time()
                 logo_active = True
+                resultsHold = results
 
             # Quando a logo some
             elif not logo_detected and logo_active:
                 logo_end = time.time()
+                print("detectado")
                 logo_active = False
+                duracao = logo_end - logo_start
                 event_log.append((logo_start, logo_end))
                 if SOURCE_TYPE == "srt":
                     if not a or not os.path.exists(a):
@@ -104,17 +107,16 @@ def detect_yolo(model, frame_queue, status_dict, status_lock, thread_id=1):
                     else:
                         cortar_video(a, logo_start, logo_end, SAVE_FOLDER)
 
-            # Imprimindo dados
-            # === Atualiza status global ===
-            with status_lock:
-                status_dict[thread_id] = {
-                    "fps": fps_real,
-                    "cpu": cpu_load,
-                    "yolo_time": infer_time,
-                    "logo": logo_active,
-                    "datetime": dt.datetime.now(), # Variavel DEV
-                    "tipo": "video"
-                }
+                # Imprimindo dados
+                # === Atualiza status global ===
+                with status_lock:
+                    status_dict[thread_id] = {
+                        "tipo": resultsHold["tipo"],
+                        "descricao": resultsHold["descricao"],
+                        "gravidade": resultsHold["gravidade"],
+                        "origem": resultsHold["origem"],
+                        "duracao": f"{time.strftime('%H:%M:%S', time.gmtime(duracao))}.{int((duracao % 1) * 1000):03d}ms",
+                    }
 
         except Exception as e:
             safe_log(f"{Back.RED}{Fore.LIGHTWHITE_EX} Erro na detecção (Thread #{Fore.LIGHTBLACK_EX}{thread_id})", e)

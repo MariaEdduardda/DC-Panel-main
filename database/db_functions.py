@@ -79,26 +79,12 @@ def criar_ocorrencia(tipo, descricao, gravidade, origem, data, hora, duracao, us
     """, (tipo, descricao, gravidade, origem, data, hora, duracao, usuario_id))
     conn.commit()
     conn.close()
-    messagebox.showinfo("Sucesso", "Ocorrência registrada com sucesso!")
-
-# def listar_ocorrencias():
-#     conn = connect()
-#     cursor = conn.cursor()
-#     cursor.execute("""
-#         SELECT o.id, o.tipo, o.descricao, o.gravidade, o.origem, o.data, o.hora, u.nome
-#         FROM ocorrencias o
-#         JOIN usuarios u ON o.usuario_id = u.id
-#         ORDER BY o.data DESC
-#     """)
-#     ocorrencias = cursor.fetchall()
-#     conn.close()
-#     return ocorrencias
 
 def listar_ocorrencias():
     conn = connect()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT o.data || ' ' || o.hora AS data_hora, o.tipo, o.duracao, o.descricao
+        SELECT *
         FROM ocorrencias o
         ORDER BY o.data DESC, o.hora DESC
     """)
@@ -118,7 +104,6 @@ def atualizar_ocorrencia(ocorrencia_id, tipo, descricao, gravidade, origem, data
     """, (tipo, descricao, gravidade, origem, data, hora, duracao, ocorrencia_id))
     conn.commit()
     conn.close()
-    messagebox.showinfo("Sucesso", "Ocorrência atualizada com sucesso!")
 
 def deletar_ocorrencia(ocorrencia_id):
     conn = connect()
@@ -126,7 +111,6 @@ def deletar_ocorrencia(ocorrencia_id):
     cursor.execute("DELETE FROM ocorrencias WHERE id=?", (ocorrencia_id,))
     conn.commit()
     conn.close()
-    messagebox.showinfo("Sucesso", "Ocorrência deletada com sucesso!")
 
 # ==========================================================
 #  CRUD - Classificações (Revisões)
