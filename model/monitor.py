@@ -1,7 +1,4 @@
-import sys
 import time
-from colorama import Back, Fore, Style # type: ignore
-from config import FILENAME
 from database.db_functions import criar_ocorrencia
 import datetime as dt
 

@@ -2,14 +2,14 @@ import threading
 import time
 from ultralytics import YOLO
 from model.stream_reader import read_frames, frame_queue
-from model.detector import detect_yolo_thread
+from model.processor import call_processor_thread
 from audio import init_audio
 from config import ALARM_FILE, MODEL_PATH, STANDBY_FILE, STANDON_FILE, NUM_THREADS
 from model.monitor import monitor_status
 from colorama import init, Back, Fore, Style # type: ignore
 from model.status_manager import *
 from model.utils import stop_recording
-from model.recorder import record_process, a
+from model.recorder import record_process
 
 
 # Inicializa o som e o modelo
@@ -40,7 +40,7 @@ threading.Thread(
 # Threads YOLO
 for i in range(NUM_THREADS):
     t = threading.Thread(
-        target=detect_yolo_thread,
+        target=call_processor_thread,
         args=(frame_queue, i+1, status_dict, status_lock),
         daemon=True
     )

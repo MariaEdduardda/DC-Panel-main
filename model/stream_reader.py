@@ -73,11 +73,7 @@ def read_frames():
             raw_frame = process.stdout.read(frame_size)
 
             # fim do arquivo
-            if not raw_frame:
-                if SOURCE_TYPE != "srt":
-                    print(f"\n🎬 {Fore.YELLOW}Fim do vídeo detectado — encerrando captura.\n")
-                    break
-                else:
+            if not raw_frame and SOURCE_TYPE == "srt":
                     raise RuntimeError("Stream parou de enviar dados")
 
             # frame incompleto (geralmente fim do vídeo)

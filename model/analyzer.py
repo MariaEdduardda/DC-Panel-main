@@ -1,10 +1,9 @@
-# detector_simples.py
 import cv2
 import numpy as np
 
 last_frame = None
 
-def avaliar(frame, limiar_preto=10, limiar_freeze=3.0):
+def analyze(frame, limiar_preto=10, limiar_freeze=3.0):
     global last_frame
 
     # Tela preta

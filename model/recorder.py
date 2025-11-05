@@ -2,6 +2,8 @@ import subprocess
 import time
 from config import STREAM_URL, SAVE_FOLDER, SOURCE_TYPE
 
+# Grava a live stream e armazena no output_path
+
 MAIN_RECORD = None  # caminho do arquivo principal
 RECORD_START_TIME = None 
 
@@ -25,7 +27,7 @@ def start_recording():
     print(f"✅ Captura iniciada")
     return process, output_path
 
-record_process, a = False, False
+record_process, output_path_live_stream = False, False
 
 if SOURCE_TYPE == "srt":
-    record_process, a = start_recording()
+    record_process, output_path_live_stream = start_recording()
