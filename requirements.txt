@@ -1,0 +1,10 @@
+Pillow
+colorama
+moviepy
+numpy
+psutil
+pygame
+requests
+tkvideo
+ttkthemes
+ultralytics
