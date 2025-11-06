@@ -1,7 +1,0 @@
-[06/11/2025 13:25:56] - Iniciando modelo de analise
-[06/11/2025 13:25:56] - Threads iniciadas: 1
-[06/11/2025 13:25:56] - FFMpeg iniciado
-[06/11/2025 13:26:03] - Ocorrencia detectada
-[06/11/2025 13:26:03] - Ocorrencia registrada: data: 2025-11-06; hora: 13:26:03;
-[06/11/2025 13:26:06] - Erro na detecção (Thread #1)
-[06/11/2025 13:26:06] - Erro na detecção (Thread #1)

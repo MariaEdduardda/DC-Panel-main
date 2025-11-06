@@ -1,12 +1,12 @@
 import threading
-from interface.ui.layout import init_interface
-from model.main import init_model
+from src.interface.ui.layout import init_interface
+from src.model.main import init_model
 import sys
 
 if __name__ == "__main__":
 
-    sys.stdout = open("logs/model_log.txt", "w", encoding="utf-8")
-    sys.stderr = open("logs/model_error.txt", "w", encoding="utf-8")
+    sys.stdout = open("src/logs/model_log.txt", "w", encoding="utf-8")
+    sys.stderr = open("src/logs/model_error.txt", "w", encoding="utf-8")
 
     # Cria e inicia o modelo em uma thread separada
     model_thread = threading.Thread(target=init_model, daemon=True)
