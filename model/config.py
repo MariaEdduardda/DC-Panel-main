@@ -5,12 +5,17 @@ import time
 # =============== Configurações ===============
 
 # Caminhos
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # diretório onde está o config.py
+ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))  # sobe um nível, para a raiz do projeto
+
 STREAM_URL = "srt://168.90.225.116:6053?mode=caller&latency=2000&transtype=live&passphrase=yKz585@354&pbkeylen=16"
 # VIDEO_PATH = "C:/Users/User/Downloads/Ocorrências_Globo/freeze/1/Ocorrência BDPE_Variação_20082025_06h32m59s.mp4" # Freeze
 VIDEO_PATH = "C:/Users/User/Downloads/Ocorrências_Globo/fade/1/Ocorrência BDPE_Corte de Sinal_22082025_08h29m02s.mp4" # Fade
 MODEL_PATH = r".\weights\best.pt" # caminho do modelo da I.A.
 SAVE_FOLDER = f"cortes/{time.strftime('%d%m%Y')}" # Pasta para salvar frames selecionados
-ALARM_FILE, STANDBY_FILE, STANDON_FILE = "sounds/alarm.mp3", "sounds/standby.mp3", "sounds/standon.mp3" # Arquivos de audio
+ALARM_FILE = os.path.join(ROOT_DIR, "sounds", "alarm.mp3") # arquivo de audio
+STANDBY_FILE = os.path.join(ROOT_DIR, "sounds", "standby.mp3") # arquivo de audio
+STANDON_FILE = os.path.join(ROOT_DIR, "sounds", "standon.mp3") # arquivo de audio
 
 # Valores 
 SOURCE_TYPE = "file" # srt ou file

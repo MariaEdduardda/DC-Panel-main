@@ -36,6 +36,10 @@ def criar_tabela_ocorrencias(frame_pai):
     atualizar_tabela()
 
 def atualizar_tabela():
+    global tabela_global
+    if tabela_global is None:
+        return  # ainda não foi criada, sai sem erro
+
     tabela_global.delete(*tabela_global.get_children())
     for item in ocorrencias_data:
         tabela_global.insert("", "end", values=tuple(item.values()))

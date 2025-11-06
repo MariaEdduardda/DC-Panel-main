@@ -4,6 +4,7 @@ from ttkthemes import ThemedTk # type: ignore
 from PIL import Image, ImageTk
 from interface.controllers.ocorrencias_controller import imprimir_pagina, upload_arquivo_ocorrencia
 from interface.ui.pages import mudar_pagina
+from interface.ui.tabela_ocorrencias import atualizar_tabela
 import os
 
 def init_interface():
@@ -60,4 +61,5 @@ def init_interface():
         ttk.Button(sidebar_frame, text=texto, command=comando, width=25).pack(pady=5)
 
     mudar_pagina("Página Principal", "Conteúdo inicial.", main_content_frame)
+    atualizar_tabela()
     janela.mainloop()

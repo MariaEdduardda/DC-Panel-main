@@ -1,6 +1,6 @@
 import time
 from database.db_functions import criar_ocorrencia
-from datetime import datetime as dt
+from datetime import datetime as dt, date
 
 def save_DB(values):
     # Salva no banco
@@ -9,8 +9,8 @@ def save_DB(values):
         descricao=values["descricao"],
         gravidade=values["gravidade"],
         origem=values["origem"],
-        data=dt.date.today(),
-        hora=dt.datetime.now().strftime("%H:%M:%S"),
+        data=date.today(),
+        hora=dt.now().strftime("%H:%M:%S"),
         duracao=values["duracao"],
         usuario_id="0"
             )
