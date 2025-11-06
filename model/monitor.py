@@ -14,7 +14,7 @@ def save_DB(values):
         duracao=values["duracao"],
         usuario_id="0"
             )
-    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia registrada: data: {dt.date.today()}; hora: {dt.datetime.now().strftime('%H:%M:%S')};")
+    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia registrada: data: {date.today()}; hora: {dt.now().strftime('%H:%M:%S')};")
 
 def monitor_status(status_dict, status_lock):
 

@@ -101,5 +101,5 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
                     }
 
         except Exception as e:
-            safe_log(f"{Back.RED}{Fore.LIGHTWHITE_EX} Erro na detecção (Thread #{Fore.LIGHTBLACK_EX}{thread_id})", e)
+            safe_log(f"Erro na detecção (Thread #{thread_id})", e)
             time.sleep(0.5)

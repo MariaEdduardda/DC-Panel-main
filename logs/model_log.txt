@@ -1,32 +1,7 @@
-[06/11/2025 13:18:21] - Iniciando modelo de analise
-[06/11/2025 13:18:21] - Threads iniciadas: 1
-[06/11/2025 13:18:21] - FFMpeg iniciado
-[06/11/2025 13:18:28] - Ocorrencia detectada
-[06/11/2025 13:18:31] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:31] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:32] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:32] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:33] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:33] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:34] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:34] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:35] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:36] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:36] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:37] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:37] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:38] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:38] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:39] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:39] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:40] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:41] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:41] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:42] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:43] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:43] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:44] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:44] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:45] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:45] - [41m[97m Erro na detecção (Thread #[90m1)
-[06/11/2025 13:18:46] - [41m[97m Erro na detecção (Thread #[90m1)
+[06/11/2025 13:25:56] - Iniciando modelo de analise
+[06/11/2025 13:25:56] - Threads iniciadas: 1
+[06/11/2025 13:25:56] - FFMpeg iniciado
+[06/11/2025 13:26:03] - Ocorrencia detectada
+[06/11/2025 13:26:03] - Ocorrencia registrada: data: 2025-11-06; hora: 13:26:03;
+[06/11/2025 13:26:06] - Erro na detecção (Thread #1)
+[06/11/2025 13:26:06] - Erro na detecção (Thread #1)
