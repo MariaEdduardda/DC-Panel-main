@@ -1,0 +1,11 @@
+Exception in thread Thread-3 (init_model):
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\threading.py", line 1009, in _bootstrap_inner
+    self.run()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\threading.py", line 946, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\DC-Panel\model\main.py", line 19, in init_model
+    init_audio(ALARM_FILE, STANDBY_FILE, STANDON_FILE)
+  File "C:\DC-Panel\sounds\audio.py", line 15, in init_audio
+    standby_sound = pygame.mixer.Sound(standby_file)
+FileNotFoundError: No file 'sounds/standby.mp3' found in working directory 'C:\Users\User\AppData\Local\Programs\Python\Python310\Lib\site-packages\ttkthemes'.

@@ -14,7 +14,7 @@ pip install -r requirements.txt
 2. Rodar a aplicação:
 
 ```python
-python3 -m interface.main
+python -m main
 ```
 
 3. Desativar o ambiente isolado:
@@ -25,6 +25,6 @@ deactivate
 
 ### Precisa ser implementado:
 
-<ul>
-<li><input type="checkbox"  disabled> Lógica para gerar o relatório</li> <li><input type="checkbox" disabled> Organizar o módulo de interface</li> <li><input type="checkbox" disabled> Deixar o front responsivo</li> <li><input type="checkbox" disabled> Integrar as Iniciações</li>
-</ul>
+- Organizar o módulo de interface
+- Deixar o front responsivo
+- Lógica para gerar o relatório

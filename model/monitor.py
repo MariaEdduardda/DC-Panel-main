@@ -1,6 +1,6 @@
 import time
 from database.db_functions import criar_ocorrencia
-import datetime as dt
+from datetime import datetime as dt
 
 def save_DB(values):
     # Salva no banco
@@ -14,7 +14,7 @@ def save_DB(values):
         duracao=values["duracao"],
         usuario_id="0"
             )
-    print(values)
+    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia registrada: data: {dt.date.today()}; hora: {dt.datetime.now().strftime('%H:%M:%S')};")
 
 def monitor_status(status_dict, status_lock):
 
@@ -28,7 +28,7 @@ def monitor_status(status_dict, status_lock):
             values = list(status_dict.values())[-1]
 
             if values != last_values:
-                print("\n📡 Mudança detectada no status global:")
+                print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia detectada")
                 save_DB(values)
                 last_values = values
 

@@ -1,5 +1,5 @@
 import pygame # type: ignore
-from config import VOLUME
+from model.config import VOLUME
 
 def init_audio(alarm_file, standby_file=None, standon_file=None):
     pygame.mixer.init()

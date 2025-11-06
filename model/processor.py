@@ -2,9 +2,10 @@ import numpy as np
 import time
 import psutil
 from ultralytics import YOLO
+from datetime import datetime as dt
 from model.utils import *
-from audio import play_standby, play_standon
-from config import *
+from sounds.audio import play_standby, play_standon
+from model.config import *
 from model.recorder import output_path_live_stream
 from colorama import Fore, Back # type: ignore
 from model.analyzer import analyze
@@ -48,14 +49,14 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
                 raw_frame = frame_queue.get(timeout=0.3)
                 if standby_alerted: # Thread ligada
                     play_standon()
-                    print(f"\n🟢 {Fore.LIGHTWHITE_EX}Thread #{thread_id}{Fore.RESET} On-line")
+                    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Thread #{thread_id} on-line")
                 standby_alerted = False
                 last_standby_time = time.time()
             except:
                 if not standby_alerted and time.time() - last_standby_time > 3: # Thread em STANDBY
                     standby_alerted = True
                     play_standby()
-                    print(f"\n🔴 {Fore.LIGHTWHITE_EX}Thread #{thread_id}{Fore.RESET} em standby")
+                    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Thread #{thread_id} off-line")
                 continue
 
             # Inferência do analyzer
@@ -79,7 +80,6 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
 
             elif not detected and bool(detected_stamp_initial):
                 detected_stamp_finish = time.time()
-                print("detectado")
                 detected = False
                 duracao = detected_stamp_finish - detected_stamp_initial
                 event_log.append((detected_stamp_initial, detected_stamp_finish))
@@ -88,7 +88,7 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
                 # Recorta o clipe do "video main"
                 if SOURCE_TYPE == "srt":
                     if not output_path_live_stream or not os.path.exists(output_path_live_stream):
-                        print(f"⚠️ Arquivo principal ainda não existe: {output_path_live_stream}")
+                        print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Arquivo principal não existe: path({output_path_live_stream})")
                     else:
                         cortar_video(output_path_live_stream, detected_stamp_initial, detected_stamp_finish, SAVE_FOLDER)
                 with status_lock:

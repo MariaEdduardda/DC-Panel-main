@@ -1,6 +1,6 @@
 import subprocess
 import time
-from config import STREAM_URL, SAVE_FOLDER, SOURCE_TYPE
+from model.config import STREAM_URL, SAVE_FOLDER, SOURCE_TYPE
 
 # Grava a live stream e armazena no output_path
 
@@ -24,7 +24,6 @@ def start_recording():
         output_path
     ]
     process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    print(f"✅ Captura iniciada")
     return process, output_path
 
 record_process, output_path_live_stream = False, False

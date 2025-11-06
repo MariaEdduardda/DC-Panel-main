@@ -6,7 +6,7 @@ from interface.controllers.ocorrencias_controller import imprimir_pagina, upload
 from interface.ui.pages import mudar_pagina
 import os
 
-def iniciar_interface():
+def init_interface():
     janela = ThemedTk(theme="adapta")
     janela.title("Globo.com - Painel de Ocorrências")
     janela.geometry("900x600")

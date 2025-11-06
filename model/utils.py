@@ -1,15 +1,14 @@
-import itertools
+from datetime import datetime as dt
 import traceback
-from colorama import Fore, Back # type: ignore
 from model.status_manager import status_dict, status_lock
-from audio import play_alarm
+from sounds.audio import play_alarm
 import subprocess
 from model.recorder import RECORD_START_TIME
 
 RECORDING = False
 
 def safe_log(msg, err=None):
-    print(f"\n⚠️{Fore.LIGHTRED_EX} {Back.WHITE} {msg}")
+    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - {msg}")
     if err:
         traceback.print_exception(type(err), err, err.__traceback__, limit=1)
 
@@ -27,7 +26,7 @@ def cortar_video(arquivo_principal, start, end, pasta_saida):
         return
 
     if RECORD_START_TIME is None:
-        print("⚠️ Gravação ainda não iniciada")
+        print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Error no corte ln: 31; path: (C:\\DC-Panel\\model\\utils.py);")
         return
 
     RECORDING = True
@@ -48,16 +47,15 @@ def cortar_video(arquivo_principal, start, end, pasta_saida):
     result = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     if result.returncode != 0:
-        print("❌ Erro ao cortar vídeo:")
-        print(result.stderr)
+        print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Erro ao cortar vídeo: {result.stderr}")
         RECORDING = False
     else:
         play_alarm()
-        print(f"⭕ Corte feito")
+        print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Corte feito com sucsso")
         RECORDING = False
 
 def stop_recording(process):
     """Interrompe o processo de gravação FFmpeg."""
     if process and process.poll() is None:
         process.terminate()
-        print("\n\n🛑 Gravação interrompida.\n\n")
+        print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Gravação interrompida")

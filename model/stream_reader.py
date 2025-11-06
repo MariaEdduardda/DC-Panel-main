@@ -1,10 +1,10 @@
+from datetime import datetime as dt
 import subprocess
 import threading
 import queue
 import time
 from model.utils import safe_log
-from config import SOURCE_TYPE, STREAM_URL, VIDEO_PATH, WIDTH, HEIGHT
-from colorama import Back, Fore # type: ignore
+from model.config import SOURCE_TYPE, STREAM_URL, VIDEO_PATH, WIDTH, HEIGHT
 
 # Melhorar a velocidade de LEITURA
 
@@ -51,8 +51,7 @@ def start_ffmpeg():
                 stderr=subprocess.DEVNULL,
                 bufsize=10**8
             )
-
-            print(f"\n🔄 {Fore.LIGHTWHITE_EX}FFmpeg ({SOURCE_TYPE.upper()}) {Back.GREEN}iniciado{Back.RESET}\n")
+            print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - FFMpeg iniciado")
 
         except Exception as e:
             safe_log("Falha ao iniciar FFmpeg", e)
@@ -78,10 +77,7 @@ def read_frames():
 
             # frame incompleto (geralmente fim do vídeo)
             if len(raw_frame) != frame_size:
-                if SOURCE_TYPE != "srt":
-                    print(f"\n⚠️ {Fore.YELLOW}Frame incompleto — vídeo finalizado.\n")
-                    break
-                else:
+                if SOURCE_TYPE == "srt":
                     raise RuntimeError("Frame incompleto")
 
             # adiciona frame na fila
@@ -115,4 +111,4 @@ def read_frames():
                 pass
             process = None
 
-    print(f"{Fore.GREEN}✅ Leitura finalizada.\n")
+    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Leitura finalizada")
