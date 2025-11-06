@@ -1,7 +1,7 @@
 import sqlite3
 
 def create_database():
-    conn = sqlite3.connect("gfo_system.db")
+    conn = sqlite3.connect("src/database/gfo_system.db")
     cursor = conn.cursor()
 
     # Tabela de Usuários

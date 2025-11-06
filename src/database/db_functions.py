@@ -2,7 +2,7 @@ import sqlite3
 from tkinter import messagebox
 import hashlib
 
-DB_NAME = "gfo_system.db"
+DB_NAME = "src/database/gfo_system.db"
 
 # ==========================================================
 #  Função auxiliar para criptografar senhas

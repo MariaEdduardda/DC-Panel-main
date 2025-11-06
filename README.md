@@ -25,6 +25,10 @@ deactivate
 
 ### Precisa ser implementado:
 
-- Organizar o módulo de interface
 - Deixar o front responsivo
+- Terminar de ajustar o theme
+- Fazer a tabela de ocorrencias ser atualizada automaticamente
+- adicionar o tipo de identificação FREEZE no modelo de detecção
+- adicionar o tipo de identificação LYP-SYNC no modelo de detecção
+- adicionar o tipo de identificação AUDIO no modelo de detecção
 - Lógica para gerar o relatório

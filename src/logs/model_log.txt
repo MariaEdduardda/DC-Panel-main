@@ -1,24 +1,22 @@
-[06/11/2025 13:50:37] - Iniciando modelo de analise
-[06/11/2025 13:50:37] - Threads iniciadas: 1
-[06/11/2025 13:50:37] - FFMpeg iniciado
-[06/11/2025 13:50:44] - Ocorrencia detectada
-[06/11/2025 13:50:44] - Ocorrencia registrada: data: 2025-11-06; hora: 13:50:44;
-[06/11/2025 13:50:47] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:47] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:48] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:48] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:49] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:50] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:50] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:51] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:51] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:52] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:52] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:53] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:53] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:54] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:54] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:55] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:55] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:56] - Erro na detecção (Thread #1)
-[06/11/2025 13:50:56] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:04] - Iniciando modelo de analise
+[06/11/2025 13:56:04] - Threads iniciadas: 1
+[06/11/2025 13:56:04] - FFMpeg iniciado
+[06/11/2025 13:56:12] - Ocorrencia detectada
+[06/11/2025 13:56:12] - Ocorrencia registrada: data: 2025-11-06; hora: 13:56:12;
+[06/11/2025 13:56:13] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:14] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:14] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:15] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:16] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:16] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:17] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:17] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:18] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:18] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:19] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:19] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:20] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:20] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:21] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:21] - Erro na detecção (Thread #1)
+[06/11/2025 13:56:22] - Erro na detecção (Thread #1)
