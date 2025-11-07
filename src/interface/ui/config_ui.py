@@ -21,6 +21,15 @@ def set_theme(janela: tk.Tk):
     )
 
     style.configure(
+        "Treeview",
+        background=COLORS_DARK["background"],
+        foreground=COLORS_DARK["foreground"],
+        fieldbackground=COLORS_DARK["background"],
+        borderwidth=0,
+        font=FONTS["default"]
+    )
+
+    style.configure(
         "TButton",
         background=COLORS_DARK["button_bg"],
         foreground=COLORS_DARK["button_fg"],

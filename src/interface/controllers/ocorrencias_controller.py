@@ -2,9 +2,9 @@ import os
 import datetime
 from tkinter import filedialog, messagebox
 from moviepy.video.io.VideoFileClip import VideoFileClip # type: ignore
-from src.database.db_functions import criar_ocorrencia, listar_ocorrencias
+from src.database.db_functions import criar_ocorrencia
 from src.interface.ui.helpers import format_duration
-from src.interface.ui.pages import atualizar_tabela_ocorrencias
+from src.interface.ui.pages.tb_ocorrencias import atualizar_tabela
 
 def get_video_duration(path):
     try:
@@ -27,7 +27,7 @@ def upload_arquivo_ocorrencia():
         criar_ocorrencia("video", nome, "leve", "Rede",
                          data_mod.split(" ")[0], data_mod.split(" ")[1], duracao, 1)
         messagebox.showinfo("Sucesso", f"Ocorrência salva!\nArquivo: {nome}")
-        atualizar_tabela_ocorrencias()
+        atualizar_tabela()
     except Exception as e:
         messagebox.showerror("Erro", f"Falha ao salvar: {e}")
 

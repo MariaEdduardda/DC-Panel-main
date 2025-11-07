@@ -1,5 +1,5 @@
 import threading
-from src.interface.ui.layout import init_interface
+from src.interface.ui.builder import init_interface
 from src.model.main import init_model
 import sys
 
