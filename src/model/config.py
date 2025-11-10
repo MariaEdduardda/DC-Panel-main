@@ -28,6 +28,9 @@ BUFFER_SECONDS = 2 # Buffer de segundos antes do corte
 DETECTION_APPEAR_THRESHOLD = 1 # Quantidade de frames para confirmar que houve uma ocorrencia 
 DETECTION_DISAPPEAR_THRESHOLD = 5 # Quantidade de frames para confirmar que acabou a ocorrencia 
 VOLUME = VOLUME # Volume das notificações
+BLACK_THRESHOLD = 10
+FREEZE_THRESHOLD = 1.5
+FREEZER_FRAMES_THRESHOLD = 3
 
 # Outros
 FRAME_BUFFER = deque(maxlen=BUFFER_SECONDS * FPS_ESTIMATED) # Lista do buffer de corte

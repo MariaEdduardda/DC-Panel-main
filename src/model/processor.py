@@ -59,6 +59,10 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
                 continue
 
             # Inferência do analyzer
+            if not raw_frame or len(raw_frame) < HEIGHT * WIDTH * 3:
+                print(f"[{dt.now().strftime('%H:%M:%S')}] - Frame vazio ou corrompido (Thread #{thread_id})")
+                continue
+
             frame = np.frombuffer(raw_frame, np.uint8).reshape((HEIGHT, WIDTH, 3))
             FRAME_BUFFER.append(frame.copy())
 
