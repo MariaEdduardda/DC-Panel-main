@@ -24,4 +24,7 @@ python -m main
 
 - adicionar o tipo de identificação LYP-SYNC no modelo de detecção
 - adicionar o tipo de identificação AUDIO no modelo de detecção
+- adicionar a paginção na tabela
+- acertar o padding da logo em relação à side bar
+- refinar o threshold do freeze
 - Lógica para gerar o relatório

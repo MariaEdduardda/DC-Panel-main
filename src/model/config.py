@@ -32,6 +32,8 @@ BLACK_THRESHOLD = 10
 FREEZE_THRESHOLD = 1.5
 FREEZER_FRAMES_THRESHOLD = 3
 
+PROCESSOR_ON = False
+
 # Outros
 FRAME_BUFFER = deque(maxlen=BUFFER_SECONDS * FPS_ESTIMATED) # Lista do buffer de corte
 os.makedirs(SAVE_FOLDER, exist_ok=True) # Garante que a pasta existe

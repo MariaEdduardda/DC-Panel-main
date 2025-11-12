@@ -47,4 +47,5 @@ def init_model():
             time.sleep(1)
     except KeyboardInterrupt:
         stop_recording(record_process)
+        PROCESSOR_ON = False
         print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Interrompido pelo usuário")
