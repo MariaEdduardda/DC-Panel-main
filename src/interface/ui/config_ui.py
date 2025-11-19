@@ -30,6 +30,16 @@ def set_theme(janela: tk.Tk):
     )
 
     style.configure(
+        "mystyle.Treeview",
+        rowheight=28
+    )  # altura das linhas
+
+    style.configure(
+        "mystyle.Treeview.Heading",
+        font=FONTS["header"]
+    )
+
+    style.configure(
         "TButton",
         background=COLORS_DARK["button_bg"],
         foreground=COLORS_DARK["button_fg"],

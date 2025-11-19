@@ -8,6 +8,8 @@ COLORS_DARK = {
     "accent": "#4A90E2",
     "button_bg": "#3A3A3A",
     "button_fg": "#FFFFFF",
+    "table_background_zebra_1": "#2B2B2B",
+    "table_background_zebra_2": "#3C3C3C",
 }
 
 FONTS = {
