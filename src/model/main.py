@@ -3,7 +3,8 @@ import time
 from datetime import datetime as dt
 from ultralytics import YOLO
 from src.model.stream_reader import read_frames, frame_queue
-from src.model.processor import call_processor_thread
+from src.model.stream_reader import read_audio, audio_queue
+from src.model.processor import call_processor
 from src.sounds.audio import init_audio
 from src.model.config import ALARM_FILE, MODEL_PATH, STANDBY_FILE, STANDON_FILE, NUM_THREADS
 from src.model.monitor import monitor_status
@@ -22,7 +23,12 @@ def init_model():
     threading.Thread(
         target=read_frames,
         daemon=True
-    ).start() # PipeLine
+    ).start() # PipeLine frames
+
+    threading.Thread(
+        target=read_audio,
+        daemon=True
+    ).start() # PipeLine audio
 
     threading.Thread(
         target=monitor_status,
@@ -30,16 +36,13 @@ def init_model():
         daemon=True
     ).start() # Monitor
 
-    # Threads YOLO
-    for i in range(NUM_THREADS):
-        t = threading.Thread(
-            target=call_processor_thread,
-            args=(frame_queue, i+1, status_dict, status_lock),
-            daemon=True
-        )
-        t.start()
-    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Threads iniciadas: {NUM_THREADS}")
+    threading.Thread(
+        target=call_processor,
+        args=(frame_queue, audio_queue, status_dict, status_lock),
+        daemon=True
+    ).start() # Analyzer
 
+    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Threads iniciada: video e udio analyzer")
 
     # Mantém o programa ativo
     try:

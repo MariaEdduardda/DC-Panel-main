@@ -1,6 +1,7 @@
 import os
 import datetime
 from tkinter import filedialog, messagebox
+from src.interface.ui.helpers import exportar_csv
 from moviepy.video.io.VideoFileClip import VideoFileClip # type: ignore
 from src.database.db_functions import criar_ocorrencia
 from src.interface.ui.helpers import format_duration
@@ -32,4 +33,8 @@ def upload_arquivo_ocorrencia():
         messagebox.showerror("Erro", f"Falha ao salvar: {e}")
 
 def imprimir_pagina():
-    messagebox.showinfo("Impressão", "Função de impressão simulada.")
+    try:
+        exportar_csv()
+        messagebox.showinfo("Sucesso", "Relatório CSV gerado com sucesso!")
+    except Exception as e:
+        messagebox.showerror("Erro", f"Falha ao gerar relatório:\n{e}")

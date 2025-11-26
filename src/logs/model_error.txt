@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\DC-Panel\main.py", line 16, in <module>
+    init_interface()
+  File "C:\DC-Panel\src\interface\ui\builder.py", line 31, in init_interface
+    janela.mainloop()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python310\lib\tkinter\__init__.py", line 1458, in mainloop
+    self.tk.mainloop(n)
+KeyboardInterrupt

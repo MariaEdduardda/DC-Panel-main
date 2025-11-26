@@ -8,14 +8,14 @@ from src.sounds.audio import play_standby, play_standon
 from src.model.config import *
 import src.model.config as config
 from src.model.recorder import output_path_live_stream
-from src.model.analyzer import analyze
+from src.model.analyzer import analyze_audio, analyze_video
 
 
-def call_processor_thread(frame_queue, thread_id, status_dict, status_lock): # Carregando Thread
+def call_processor(frame_queue, audio_queue, status_dict, status_lock): # Carregando Thread
     model = YOLO(config.MODEL_PATH)
-    process(model, frame_queue, status_dict, status_lock, thread_id)
+    processor(model, frame_queue, audio_queue, status_dict, status_lock)
 
-def process(model, frame_queue, status_dict, status_lock, thread_id=1):
+def processor(model, frame_queue, audio_queue, status_dict, status_lock):
 
     # =============== VARIAVEIS ===============
 
@@ -45,43 +45,72 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
                 continue
 
             try:
-                raw_frame = frame_queue.get(timeout=0.3)
+                raw_frame = frame_queue.get(timeout=0.5)
                 if standby_alerted: # Thread ligada
                     play_standon()
-                    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Thread #{thread_id} on-line")
+                    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Thread on-line")
                 standby_alerted = False
                 last_standby_time = time.time()
             except:
                 if not standby_alerted and time.time() - last_standby_time > 3: # Thread em STANDBY
                     standby_alerted = True
                     play_standby()
-                    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Thread #{thread_id} off-line")
+                    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Thread off-line")
                 continue
 
             # Inferência do analyzer
             if not raw_frame or len(raw_frame) < config.HEIGHT * config.WIDTH * 3:
-                print(f"[{dt.now().strftime('%H:%M:%S')}] - Frame vazio ou corrompido (Thread #{thread_id})")
+                print(f"[{dt.now().strftime('%H:%M:%S')}] - Frame vazio ou corrompido")
                 continue
 
-            frame = np.frombuffer(raw_frame, np.uint8).reshape((config.HEIGHT, config.WIDTH, 3))
+            if raw_frame and len(raw_frame) == config.HEIGHT * config.WIDTH * 3:
+                frame = np.frombuffer(raw_frame, dtype=np.uint8).reshape(config.HEIGHT, config.WIDTH, 3)
+            else:
+                # não manda pro analyze()
+                continue
             config.FRAME_BUFFER.append(frame.copy())
 
-            results = analyze(frame)
-            detected = bool(results)
+            # tenta pegar áudio sem bloquear
+            try:
+                audio_chunk = audio_queue.get_nowait()
+            except:
+                audio_chunk = None
+
+            audio_result = analyze_audio(audio_chunk) if audio_chunk else None
+            video_result = analyze_video(frame)
+
+            # MONTAR RESULTADO FINAL
+            if audio_result:
+                result_final = audio_result
+            elif video_result and video_result["descricao"] != "ok":
+                result_final = video_result
+            else:
+                result_final = {"tipo": "none", "descricao": "ok"}
+
+            # LÓGICA DE DETECÇÃO
+            if result_final["descricao"] != "ok":
+                detected = True
+            else:
+                detected = False
+                detected_false_count += 1
+                if detected_false_count >= DETECTION_THRESHOLD:
+                    detected = False
+
+            if not bool(audio_result) and not bool(result_final):
+                detected_false_count += 1
+                if detected_false_count >= DETECTION_THRESHOLD:
+                    detected = False
 
             if detected:
                 detected_true_count += 1
                 detected_false_count = 0
-            else:
-                detected_false_count += 1
-                detected_true_count = 0
 
             if detected and not bool(detected_stamp_initial):
                 detected_stamp_initial = time.time()
                 detected = True
-                resultsHold = results
+                resultsHold = result_final
 
-            elif not detected and bool(detected_stamp_initial):
+            elif not detected and bool(detected_stamp_initial) and resultsHold["descricao"] != "ok":
                 detected_stamp_finish = time.time()
                 detected = False
                 duracao = detected_stamp_finish - detected_stamp_initial
@@ -95,7 +124,7 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
                     else:
                         cortar_video(output_path_live_stream, detected_stamp_initial, detected_stamp_finish, config.SAVE_FOLDER)
                 with status_lock:
-                    status_dict[thread_id] = {
+                    status_dict["thread"] = {
                         "tipo": resultsHold["tipo"],
                         "descricao": resultsHold["descricao"],
                         "gravidade": resultsHold["gravidade"],
@@ -105,6 +134,6 @@ def process(model, frame_queue, status_dict, status_lock, thread_id=1):
             config.PROCESSOR_ON = True
 
         except Exception as e:
-            safe_log(f"Erro na detecção (Thread #{thread_id})", e)
+            safe_log(f"Erro na detecção", e)
             config.PROCESSOR_ON = False
             time.sleep(0.5)

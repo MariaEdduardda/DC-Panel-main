@@ -14,7 +14,7 @@ COLORS_DARK = {
 
 FONTS = {
     "default": ("Helvetica", 10),
-    "header": ("Arial", 12, "bold"),
+    "header": ("Arial", 10, "bold"),
     "title": ("Arial", 16, "bold")
 }
 

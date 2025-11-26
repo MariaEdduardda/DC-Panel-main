@@ -1,0 +1,14 @@
+id;tipo;descricao;gravidade;origem;data;hora;duracao;usuario_id
+13;video;fade;leve;Rede;25/11/2025;21:11:05;00:00:02.407ms;0
+12;video;fade;leve;Rede;25/11/2025;21:09:55;00:00:02.618ms;0
+11;video;fade;leve;Rede;25/11/2025;20:58:25;00:00:02.588ms;0
+10;video;fade;leve;Rede;25/11/2025;20:57:14;00:00:02.474ms;0
+9;video;fade;leve;Rede;25/11/2025;20:45:45;00:00:02.844ms;0
+8;video;fade;leve;Rede;25/11/2025;20:43:08;00:00:02.810ms;0
+7;video;fade;leve;Rede;25/11/2025;20:41:26;00:00:02.706ms;0
+6;video;fade;leve;Rede;25/11/2025;20:37:19;00:00:02.579ms;0
+5;video;fade;leve;Rede;25/11/2025;20:33:34;00:00:02.509ms;0
+4;video;fade;leve;Rede;25/11/2025;20:03:38;00:00:02.856ms;0
+3;video;fade;leve;Rede;25/11/2025;20:00:25;00:00:03.139ms;0
+2;video;fade;leve;Rede;25/11/2025;19:59:26;00:00:02.678ms;0
+1;video;fade;leve;Rede;25/11/2025;19:58:21;00:00:02.546ms;0

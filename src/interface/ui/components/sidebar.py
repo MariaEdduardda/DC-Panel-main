@@ -13,7 +13,7 @@ def set_sidebar(main_layout_frame):
     menu_opcoes = [
         ("Menu Principal", lambda: mudar_pagina("Página Principal", "Conteúdo principal.", main_content_frame)),
         ("Ocorrências", lambda: mudar_pagina("Ocorrências", "", main_content_frame, pagina_id="ocorrencias")),
-        ("Relatórios", lambda: mudar_pagina("Relatórios", "Página de relatórios.", main_content_frame)),
+        ("Relatórios", lambda: mudar_pagina("Relatórios", "", main_content_frame, pagina_id="relatorios")),
     ]
 
     for texto, comando in menu_opcoes:

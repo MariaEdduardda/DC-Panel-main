@@ -25,12 +25,14 @@ YOLO_CONF = 0.70 # Valor de Confiança da I.A.
 NUM_THREADS = 1 # Numero de Threads de processamento
 FPS_ESTIMATED = 30  # FPS do video/transmissão
 BUFFER_SECONDS = 2 # Buffer de segundos antes do corte
-DETECTION_APPEAR_THRESHOLD = 1 # Quantidade de frames para confirmar que houve uma ocorrencia 
-DETECTION_DISAPPEAR_THRESHOLD = 5 # Quantidade de frames para confirmar que acabou a ocorrencia 
+DETECTION_THRESHOLD = 10 # Quantidade de frames para confirmar que uma ocorrencia acabou
 VOLUME = VOLUME # Volume das notificações
 BLACK_THRESHOLD = 10
-FREEZE_THRESHOLD = 1.5
-FREEZER_FRAMES_THRESHOLD = 3
+FREEZE_THRESHOLD = 8
+FREEZER_FRAMES_THRESHOLD = 30
+SILENCE_THRESHOLD = 0.001
+CLIP_THRESHOLD = 0.98
+SAMPLE_RATE = 16000 # Taxa de amostragem do áudio
 
 PROCESSOR_ON = False
 

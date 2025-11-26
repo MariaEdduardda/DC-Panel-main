@@ -47,21 +47,20 @@ def create_database():
 
     # Tabela de Relatórios
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS relatorios (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            periodo TEXT NOT NULL,
-            total_falhas INTEGER DEFAULT 0,
-            total_gravissimas INTEGER DEFAULT 0,
-            total_leves INTEGER DEFAULT 0,
-            gerado_por INTEGER NOT NULL,
-            FOREIGN KEY (gerado_por) REFERENCES usuarios (id)
-        );
-    """)
+    CREATE TABLE IF NOT EXISTS relatorios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        periodo TEXT NOT NULL,
+        total_falhas INTEGER DEFAULT 0,
+        gerado_por INTEGER NOT NULL,
+        caminho_arquivo TEXT,
+        FOREIGN KEY (gerado_por) REFERENCES usuarios (id)
+    );
+""")
 
     conn.commit()
     conn.close()
     print(" Banco de dados 'gfo_system.db' criado com sucesso!")
 
-
 if __name__ == "__main__":
     create_database()
+

@@ -143,16 +143,15 @@ def listar_classificacoes():
 # ==========================================================
 # CRUD - Relatórios
 # ==========================================================
-def criar_relatorio(periodo, total_falhas, total_gravissimas, total_leves, gerado_por):
+def criar_relatorio(periodo, total_falhas, gerado_por, caminho_arquivo):
     conn = connect()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO relatorios (periodo, total_falhas, total_gravissimas, total_leves, gerado_por)
-        VALUES (?, ?, ?, ?, ?)
-    """, (periodo, total_falhas, total_gravissimas, total_leves, gerado_por))
+        INSERT INTO relatorios (periodo, total_falhas, gerado_por, caminho_arquivo)
+        VALUES (?, ?, ?, ?)
+    """, (periodo, total_falhas, gerado_por, caminho_arquivo))
     conn.commit()
     conn.close()
-    messagebox.showinfo("Sucesso", "Relatório gerado com sucesso!")
 
 def listar_relatorios():
     conn = connect()

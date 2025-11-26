@@ -29,6 +29,7 @@ def monitor_status(status_dict, status_lock):
 
             if values != last_values:
                 print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia detectada")
+                print(values)
                 save_DB(values)
                 last_values = values
 
