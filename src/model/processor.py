@@ -75,62 +75,78 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                 audio_chunk = audio_queue.get_nowait()
             except:
                 audio_chunk = None
+            
+            # DEBBUG
+            print(f"[processor] audio_chunk type={type(audio_chunk)} len={(len(audio_chunk) if isinstance(audio_chunk, (bytes, bytearray)) else 'N/A')}")
 
-            audio_result = analyze_audio(audio_chunk) if audio_chunk else None
+            audio_result = analyze_audio(audio_chunk) if isinstance(audio_chunk, (bytes, bytearray)) else None
             video_result = analyze_video(frame)
 
-            # MONTAR RESULTADO FINAL
+            # Decide qual evento (prioriza áudio)
+            result_final = None
             if audio_result:
                 result_final = audio_result
-            elif video_result and video_result["descricao"] != "ok":
+            elif video_result and video_result.get("descricao") != "ok":
                 result_final = video_result
-            else:
-                result_final = {"tipo": "none", "descricao": "ok"}
 
-            # LÓGICA DE DETECÇÃO
-            if result_final["descricao"] != "ok":
-                detected = True
-            else:
-                detected = False
-                detected_false_count += 1
-                if detected_false_count >= DETECTION_THRESHOLD:
-                    detected = False
-
-            if not bool(audio_result) and not bool(result_final):
-                detected_false_count += 1
-                if detected_false_count >= DETECTION_THRESHOLD:
-                    detected = False
-
-            if detected:
-                detected_true_count += 1
+            # -------------------------
+            # LÓGICA SIMPLIFICADA (state machine)
+            # -------------------------
+            # in_event: estamos dentro de um evento (True) ou não (False)
+            if 'in_event' not in locals():
+                in_event = False
                 detected_false_count = 0
 
-            if detected and not bool(detected_stamp_initial):
-                detected_stamp_initial = time.time()
-                detected = True
-                resultsHold = result_final
+            # Se result_final existe -> temos um evento agora
+            if result_final:
+                # Entrou no evento
+                if not in_event:
+                    in_event = True
+                    detected_stamp_initial = time.time()
+                    resultsHold = result_final
+                    detected_true_count = 1
+                    detected_false_count = 0
+                    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia detectada (start) -> {resultsHold}")
+                else:
+                    # já dentro do evento: reseta contadores
+                    detected_true_count += 1
+                    detected_false_count = 0
 
-            elif not detected and bool(detected_stamp_initial) and resultsHold["descricao"] != "ok":
-                detected_stamp_finish = time.time()
-                detected = False
-                duracao = detected_stamp_finish - detected_stamp_initial
-                event_log.append((detected_stamp_initial, detected_stamp_finish))
-                detected_stamp_initial = 0
+            else:
+                # nenhum evento neste frame
+                if in_event:
+                    detected_false_count += 1
+                    # Espera N frames consecutivos sem evento para confirmar o fim
+                    if detected_false_count >= DETECTION_THRESHOLD:
+                        detected_stamp_finish = time.time()
+                        duracao = detected_stamp_finish - detected_stamp_initial
+                        print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia registrada: {resultsHold} duracao={duracao:.3f}s")
+                        event_log.append((detected_stamp_initial, detected_stamp_finish))
 
-                # Recorta o clipe do "video main"
-                if config.SOURCE_TYPE == "srt":
-                    if not output_path_live_stream or not os.path.exists(output_path_live_stream):
-                        print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Arquivo principal não existe: path({output_path_live_stream})")
-                    else:
-                        cortar_video(output_path_live_stream, detected_stamp_initial, detected_stamp_finish, config.SAVE_FOLDER)
-                with status_lock:
-                    status_dict["thread"] = {
-                        "tipo": resultsHold["tipo"],
-                        "descricao": resultsHold["descricao"],
-                        "gravidade": resultsHold["gravidade"],
-                        "origem": resultsHold["origem"],
-                        "duracao": f"{time.strftime('%H:%M:%S', time.gmtime(duracao))}.{int((duracao % 1) * 1000):03d}ms",
-                    }
+                        # salvar / cortar se aplicável
+                        if config.SOURCE_TYPE == "srt" and output_path_live_stream and os.path.exists(output_path_live_stream):
+                            cortar_video(output_path_live_stream, detected_stamp_initial, detected_stamp_finish, config.SAVE_FOLDER)
+
+                        # atualiza status
+                        with status_lock:
+                            print(f"[processor] atualizando status_dict com evento {resultsHold}")
+                            status_dict["thread"] = {
+                                "tipo": resultsHold.get("tipo"),
+                                "descricao": resultsHold.get("descricao"),
+                                "gravidade": resultsHold.get("gravidade"),
+                                "origem": resultsHold.get("origem"),
+                                "duracao": f"{time.strftime('%H:%M:%S', time.gmtime(duracao))}.{int((duracao % 1) * 1000):03d}ms",
+                            }
+
+                        # reset state
+                        in_event = False
+                        detected_false_count = 0
+                        detected_stamp_initial = None
+                        resultsHold = None
+                else:
+                    # não estamos em evento, nada a fazer
+                    pass
+
             config.PROCESSOR_ON = True
 
         except Exception as e:

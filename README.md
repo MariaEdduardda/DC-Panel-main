@@ -25,3 +25,4 @@ python -m main
 - adicionar o tipo de identificação LYP-SYNC no modelo de detecção
 - acertar o padding da logo em relação à side bar
 - refinar o threshold do freeze
+- volume com problema, a variavel global não é respeitada

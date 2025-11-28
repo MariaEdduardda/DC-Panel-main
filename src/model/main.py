@@ -2,8 +2,9 @@ import threading
 import time
 from datetime import datetime as dt
 from ultralytics import YOLO
+import src.model.audio_reader as sr
+
 from src.model.stream_reader import read_frames, frame_queue
-from src.model.stream_reader import read_audio, audio_queue
 from src.model.processor import call_processor
 from src.sounds.audio import init_audio
 from src.model.config import ALARM_FILE, MODEL_PATH, STANDBY_FILE, STANDON_FILE, NUM_THREADS
@@ -25,10 +26,33 @@ def init_model():
         daemon=True
     ).start() # PipeLine frames
 
-    threading.Thread(
-        target=read_audio,
-        daemon=True
-    ).start() # PipeLine audio
+    #==============================================
+
+    # Inicia FFmpeg áudio
+    sr.start_audio_ffmpeg()
+
+    # Inicia imediatamente a leitura do pipe para evitar EOF precoce ✅
+    if sr.audio_proc and sr.audio_proc.stdout:
+        threading.Thread(
+            target=sr.read_audio_pipe,
+            args=(sr.audio_proc.stdout, sr.audio_queue),
+            daemon=True
+        ).start()
+    else:
+        print("❌ Pipe de áudio não está disponível!")
+        return
+
+    # Agora sim aguarda o processo ser atribuído no global ✅
+    wait = 0
+    while sr.audio_proc is None and wait < 100:
+        time.sleep(0.01)
+        wait += 1
+
+    if sr.audio_proc is None:
+        print("❌ Não iniciou áudio, abortando!")
+        return
+
+    #==============================================
 
     threading.Thread(
         target=monitor_status,
@@ -38,7 +62,7 @@ def init_model():
 
     threading.Thread(
         target=call_processor,
-        args=(frame_queue, audio_queue, status_dict, status_lock),
+        args=(frame_queue, sr.audio_queue, status_dict, status_lock),
         daemon=True
     ).start() # Analyzer
 

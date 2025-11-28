@@ -1,14 +1,14 @@
 import cv2
 import numpy as np
-from skimage.metrics import structural_similarity as ssim
-from src.model.config import BLACK_THRESHOLD, FREEZE_THRESHOLD, FREEZER_FRAMES_THRESHOLD, CLIP_THRESHOLD, SILENCE_THRESHOLD
+from datetime import datetime as dt
+from skimage.metrics import structural_similarity as ssim # type: ignore
+from src.model.config import BLACK_THRESHOLD, SILENCE_THRESHOLD, CLIP_THRESHOLD, FREEZER_FRAMES_THRESHOLD
+from src.model.utils import safe_log
 
 last_frame_small = None
 freeze_counter = 0
 
-
-
-def analyze_video(frame):
+def analyze_video(frame): # Recebe frame um frame
     global last_frame_small, freeze_counter
 
     # ====================== Tela preta ======================
@@ -43,7 +43,7 @@ def analyze_video(frame):
             freeze_counter = 0
 
         # Confirma freeze depois de X frames
-        if freeze_counter >= 30:   # 1 segundo em 30fps
+        if freeze_counter >= FREEZER_FRAMES_THRESHOLD:   # 1 segundo em 30fps
             freeze_counter = 0
             last_frame_small = small.copy()
             return {
@@ -57,31 +57,28 @@ def analyze_video(frame):
     return {"tipo": "video", "descricao": "ok"}
 
 
-def analyze_audio(chunk):
-    if not chunk:
+def analyze_audio(chunk): # Recebe bytes brutos do áudio
+    if chunk is None or len(chunk) == 0:
         return None
-    # converte bytes -> int16 -> float
-    data = np.frombuffer(chunk, dtype=np.int16).astype(np.float32) / 32768.0
 
-    rms = np.sqrt(np.mean(data ** 2))
-    clipped = np.mean(np.abs(data) > CLIP_THRESHOLD)
+    try:
+        data = np.frombuffer(chunk, np.int16).astype(np.float32) / 32768.0
+    except Exception as e:
+        safe_log("Erro ao converter chunk de áudio", e)
+        return None
 
-    silence = rms < SILENCE_THRESHOLD
-    clipping = clipped > 0.01
+    # RMS do bloco (valor entre 0 e ~1)
+    rms = float(np.sqrt(np.mean(data ** 2)))
+    # taxa de samples 'clipped'
+    clipped_ratio = float(np.mean(np.abs(data) > CLIP_THRESHOLD))
 
-    if silence:
-        return {
-            "tipo": "audio",
-            "descricao": "silencio",
-            "gravidade": "leve",
-            "origem": "Rede"
-        }
+    # Silence detection (retornar EVENTO somente se abaixo do threshold)
+    if rms < SILENCE_THRESHOLD:
+        return {"tipo": "audio", "descricao": "silence", "gravidade": "leve", "origem": "Rede"}
 
-    if clipping:
-        return {
-            "tipo": "audio",
-            "descricao": "clipping",
-            "gravidade": "moderado",
-            "origem": "Rede"
-        }
+    # clipping
+    if clipped_ratio > 0.01:
+        return {"tipo": "audio", "descricao": "clipping", "gravidade": "moderado", "origem": "Rede"}
+
+    # sem evento relevante
     return None

@@ -1,7 +1,7 @@
 import os
 from collections import deque
 import time
-from config import VOLUME, VIDEO_PATH
+from config import VIDEO_PATH
 
 # =============== Configurações ===============
 
@@ -18,21 +18,33 @@ ALARM_FILE = os.path.join(ROOT_DIR, "sounds", "alarm.mp3") # arquivo de audio
 STANDBY_FILE = os.path.join(ROOT_DIR, "sounds", "standby.mp3") # arquivo de audio
 STANDON_FILE = os.path.join(ROOT_DIR, "sounds", "standon.mp3") # arquivo de audio
 
-# Valores 
+# Variaveis GERAIS 
 SOURCE_TYPE = "file" # srt ou file
 WIDTH, HEIGHT = 640, 360 # Tamanho dos frames
-YOLO_CONF = 0.70 # Valor de Confiança da I.A.
 NUM_THREADS = 1 # Numero de Threads de processamento
-FPS_ESTIMATED = 30  # FPS do video/transmissão
 BUFFER_SECONDS = 2 # Buffer de segundos antes do corte
-DETECTION_THRESHOLD = 10 # Quantidade de frames para confirmar que uma ocorrencia acabou
-VOLUME = VOLUME # Volume das notificações
-BLACK_THRESHOLD = 10
-FREEZE_THRESHOLD = 8
-FREEZER_FRAMES_THRESHOLD = 30
-SILENCE_THRESHOLD = 0.001
+VOLUME = 0 # Volume das notificações
+
+# Variaveis de DETECÇÃO
+
+YOLO_CONF = 0.70 # Valor de Confiança da I.A.
+DETECTION_THRESHOLD = 5 # Quantidade de frames para confirmar que uma ocorrencia acabou
+
+
+# Variaveis de AUDIO
+
+SILENCE_THRESHOLD = 0.05 # TH de silêncio (RMS)
 CLIP_THRESHOLD = 0.98
 SAMPLE_RATE = 16000 # Taxa de amostragem do áudio
+
+
+# Variaveis de VIDEO
+
+FPS_ESTIMATED = 30  # FPS do video/transmissão
+BLACK_THRESHOLD = 10 # TH de quadro preto (0-255)
+FREEZE_THRESHOLD = 8 # TH de similaridade para freeze (0-10)
+FREEZER_FRAMES_THRESHOLD = 30 # Quantidade de frames similares para confirmar freeze
+
 
 PROCESSOR_ON = False
 
