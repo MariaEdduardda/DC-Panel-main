@@ -1,5 +1,5 @@
 import pygame # type: ignore
-from src.model.config import VOLUME
+from config import VOLUME
 
 def init_audio(alarm_file, standby_file=None, standon_file=None):
     pygame.mixer.init()
@@ -9,15 +9,15 @@ def init_audio(alarm_file, standby_file=None, standon_file=None):
     standon_sound = None
 
     alarm_sound = pygame.mixer.Sound(alarm_file)
-    alarm_sound.set_volume(calcVolume(30, 10)) # valor geral menos 30%, volume minimo 10%
+    alarm_sound.set_volume(calcVolume(30, 0)) # valor geral menos 30%, volume minimo 10%
 
     if standby_file:
         standby_sound = pygame.mixer.Sound(standby_file)
-        standby_sound.set_volume(calcVolume(0, 10))
+        standby_sound.set_volume(calcVolume(0, 0))
     
     if standon_file:
         standon_sound = pygame.mixer.Sound(standon_file)
-        standon_sound.set_volume(calcVolume(0, 10))
+        standon_sound.set_volume(calcVolume(0, 0))
 
 # Calcula o volume resultante com base na subtração, volume geral e volume minimo para o audio
 def calcVolume(sub, min_vol):

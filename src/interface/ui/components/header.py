@@ -32,7 +32,7 @@ def atualizar_logo(janela, logo_label):
 
 def set_header(janela):
     header_frame = ttk.Frame(janela)
-    header_frame.pack(fill="x", pady=5)
+    header_frame.pack(fill="x", pady=5, padx=32)
 
     # Cria o label do logo
     logo_label = tk.Label(header_frame, bg="#2b2b2b")

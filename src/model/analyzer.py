@@ -54,13 +54,15 @@ def analyze_video(frame): # Recebe frame um frame
             }
 
     last_frame_small = small.copy()
-    return {"tipo": "video", "descricao": "ok"}
+    return {
+        "tipo": "video",
+        "descricao": "ok"
+    }
 
 
 def analyze_audio(chunk): # Recebe bytes brutos do áudio
     if chunk is None or len(chunk) == 0:
         return None
-
     try:
         data = np.frombuffer(chunk, np.int16).astype(np.float32) / 32768.0
     except Exception as e:
@@ -72,13 +74,22 @@ def analyze_audio(chunk): # Recebe bytes brutos do áudio
     # taxa de samples 'clipped'
     clipped_ratio = float(np.mean(np.abs(data) > CLIP_THRESHOLD))
 
-    # Silence detection (retornar EVENTO somente se abaixo do threshold)
+    # Silence detection
     if rms < SILENCE_THRESHOLD:
-        return {"tipo": "audio", "descricao": "silence", "gravidade": "leve", "origem": "Rede"}
+        return {
+            "tipo": "audio",
+            "descricao": "silence",
+            "gravidade": "leve",
+            "origem": "Rede"
+        }
 
     # clipping
     if clipped_ratio > 0.01:
-        return {"tipo": "audio", "descricao": "clipping", "gravidade": "moderado", "origem": "Rede"}
-
+        return {
+            "tipo": "audio",
+            "descricao": "clipping",
+            "gravidade": "moderado",
+            "origem": "Rede"
+        }
     # sem evento relevante
     return None

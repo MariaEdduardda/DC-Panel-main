@@ -11,7 +11,7 @@ def set_sidebar(main_layout_frame):
     main_content_frame.pack(side="left", fill="both", expand=True)
 
     menu_opcoes = [
-        ("Menu Principal", lambda: mudar_pagina("Página Principal", "Conteúdo principal.", main_content_frame)),
+        ("Menu Principal", lambda: mudar_pagina("Página Principal", "", main_content_frame, pagina_id="dashboard")),
         ("Ocorrências", lambda: mudar_pagina("Ocorrências", "", main_content_frame, pagina_id="ocorrencias")),
         ("Relatórios", lambda: mudar_pagina("Relatórios", "", main_content_frame, pagina_id="relatorios")),
     ]

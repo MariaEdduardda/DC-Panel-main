@@ -23,7 +23,7 @@ SOURCE_TYPE = "file" # srt ou file
 WIDTH, HEIGHT = 640, 360 # Tamanho dos frames
 NUM_THREADS = 1 # Numero de Threads de processamento
 BUFFER_SECONDS = 2 # Buffer de segundos antes do corte
-VOLUME = 0 # Volume das notificações
+CPU_LOAD_LIMIT = 90 # Limite de uso de CPU para processar (em %)
 
 # Variaveis de DETECÇÃO
 
@@ -31,21 +31,27 @@ YOLO_CONF = 0.70 # Valor de Confiança da I.A.
 DETECTION_THRESHOLD = 5 # Quantidade de frames para confirmar que uma ocorrencia acabou
 
 
-# Variaveis de AUDIO
+# Variaveis de ANALYZE AUDIO
 
 SILENCE_THRESHOLD = 0.05 # TH de silêncio (RMS)
 CLIP_THRESHOLD = 0.98
 SAMPLE_RATE = 16000 # Taxa de amostragem do áudio
 
 
-# Variaveis de VIDEO
+# Variaveis de ANALYZE VIDEO
 
 FPS_ESTIMATED = 30  # FPS do video/transmissão
 BLACK_THRESHOLD = 10 # TH de quadro preto (0-255)
 FREEZE_THRESHOLD = 8 # TH de similaridade para freeze (0-10)
 FREEZER_FRAMES_THRESHOLD = 30 # Quantidade de frames similares para confirmar freeze
 
+# Variaveis de LEITURA AUDIO
 
+CHUNK_MS = 100  # Duração de cada chunk de áudio em ms
+CHUNK_SIZE = int(SAMPLE_RATE * 2 * (CHUNK_MS / 1000))  # 2 bytes por sample (int16 mono)
+
+
+# Variaveis de PROCESSAMENTO
 PROCESSOR_ON = False
 
 # Outros

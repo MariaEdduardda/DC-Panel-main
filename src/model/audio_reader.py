@@ -1,18 +1,13 @@
 import threading
 import subprocess
 import queue
-import time
-import numpy as np
 from datetime import datetime as dt
-from src.model.config import SAMPLE_RATE, VIDEO_PATH, SILENCE_THRESHOLD
+from src.model.config import SAMPLE_RATE, VIDEO_PATH, CHUNK_SIZE
 from src.model.utils import safe_log
 
 audio_proc = None
 audio_queue = queue.Queue(maxsize=30)
 proc_lock = threading.Lock()
-
-CHUNK_MS = 100
-CHUNK_SIZE = int(SAMPLE_RATE * 2 * (CHUNK_MS / 1000))  # 2 bytes por sample (int16 mono)
 
 def start_audio_ffmpeg():
     global audio_proc
@@ -34,29 +29,17 @@ def start_audio_ffmpeg():
             audio_proc = None
 
 def read_audio_pipe(pipe, q):
-    """Lê áudio do FFmpeg, detecta silêncio localmente e envia bytes ao processor."""
     while True:
         try:
             raw = pipe.read(CHUNK_SIZE)
             if raw is None or len(raw) == 0:
                 print("[AudioReader] EOF do áudio – finalizado 🔚")
                 break
-
-            # Calcula silêncio apenas para log, sem interferir no envio ao processor
-            audio = np.frombuffer(raw, np.int16).astype(np.float32) / 32768.0
-            rms = float(np.sqrt(np.mean(audio**2)))
-
-            if rms < SILENCE_THRESHOLD:
-                print(f"[SilenceDetector] 🔇 Silêncio detectado (RMS={rms:.6f})")
-
-            # Se a fila estiver cheia, descarta o mais antigo (não bloqueia a thread)
             if q.full():
                 try:
                     q.get_nowait()
                 except queue.Empty:
                     pass
-
-            # 🚀 Sempre entrega os bytes brutos ao processor
             q.put_nowait(raw)
 
         except Exception as e:
@@ -64,4 +47,4 @@ def read_audio_pipe(pipe, q):
             q.put(None)
             break
 
-    print("[AudioReader] Thread de áudio encerrada.")
+    print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Thread de áudio encerrada.")

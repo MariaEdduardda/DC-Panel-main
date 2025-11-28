@@ -7,6 +7,7 @@ from src.interface.ui.pages.manager import mudar_pagina
 from src.interface.ui.config_ui import *
 from src.interface.ui.components.header import set_header
 from src.interface.ui.components.sidebar import set_sidebar
+from src.interface.ui.pages.dashboard import render_dashboard
 
 def init_interface():
     janela = ThemedTk(theme="adapta")
@@ -22,7 +23,7 @@ def init_interface():
 
     main_content_frame = set_sidebar(main_layout_frame) # Setando a sidebar
 
-    mudar_pagina("Página Principal", "Conteúdo inicial.", main_content_frame) # Direciona automaticamente para a primeira pagina
+    mudar_pagina("Página Principal", "", main_content_frame, pagina_id="dashboard") # Direciona automaticamente para a primeira pagina
 
     # Observando se há alterações no banco de dados, consequentemente na tabela
     tb.root_ref = janela

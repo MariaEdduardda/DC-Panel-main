@@ -1,6 +1,7 @@
 from tkinter import ttk
 from src.interface.ui.pages.tb_ocorrencias import criar_tabela_ocorrencias
 from src.interface.ui.pages.tb_relatorios import criar_tabela_relatorios
+from src.interface.ui.pages.dashboard import render_dashboard
 from src.interface.settings import VIDEO_PATH
 
 def mudar_pagina(titulo, texto, frame, pagina_id=None):
@@ -14,6 +15,9 @@ def mudar_pagina(titulo, texto, frame, pagina_id=None):
             criar_tabela_ocorrencias(frame)
         case "relatorios":
             criar_tabela_relatorios(frame)
+            pass
+        case "dashboard":
+            render_dashboard(frame)
             pass
         case _:
             ttk.Label(frame, text=texto, wraplength=500).pack(padx=20)

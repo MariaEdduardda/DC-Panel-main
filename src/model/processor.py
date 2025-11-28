@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import time
 import psutil
@@ -5,7 +6,6 @@ from ultralytics import YOLO
 from datetime import datetime as dt
 from src.model.utils import *
 from src.sounds.audio import play_standby, play_standon
-from src.model.config import *
 import src.model.config as config
 from src.model.recorder import output_path_live_stream
 from src.model.analyzer import analyze_audio, analyze_video
@@ -25,7 +25,6 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
     # Variaveis de GRAVAÇÃO DE CORTE
 
     detected_stamp_initial, detected_stamp_finish = None, None
-    detected = False
     event_log = []
 
     # Variáveis de STANDBY
@@ -40,7 +39,7 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
         try:
 
             cpu_load = psutil.cpu_percent(interval=0.025)
-            if cpu_load > 90:
+            if cpu_load > config.CPU_LOAD_LIMIT:
                 time.sleep(cpu_load_time)
                 continue
 
@@ -75,9 +74,10 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                 audio_chunk = audio_queue.get_nowait()
             except:
                 audio_chunk = None
-            
-            # DEBBUG
-            print(f"[processor] audio_chunk type={type(audio_chunk)} len={(len(audio_chunk) if isinstance(audio_chunk, (bytes, bytearray)) else 'N/A')}")
+
+            # -------------------------
+            # ANALISE DE AUDIO E VIDEO
+            # -------------------------
 
             audio_result = analyze_audio(audio_chunk) if isinstance(audio_chunk, (bytes, bytearray)) else None
             video_result = analyze_video(frame)
@@ -90,7 +90,7 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                 result_final = video_result
 
             # -------------------------
-            # LÓGICA SIMPLIFICADA (state machine)
+            # TRATAMENTO DE EVENTOS
             # -------------------------
             # in_event: estamos dentro de um evento (True) ou não (False)
             if 'in_event' not in locals():
@@ -117,7 +117,7 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                 if in_event:
                     detected_false_count += 1
                     # Espera N frames consecutivos sem evento para confirmar o fim
-                    if detected_false_count >= DETECTION_THRESHOLD:
+                    if detected_false_count >= config.DETECTION_THRESHOLD:
                         detected_stamp_finish = time.time()
                         duracao = detected_stamp_finish - detected_stamp_initial
                         print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia registrada: {resultsHold} duracao={duracao:.3f}s")
@@ -126,10 +126,9 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                         # salvar / cortar se aplicável
                         if config.SOURCE_TYPE == "srt" and output_path_live_stream and os.path.exists(output_path_live_stream):
                             cortar_video(output_path_live_stream, detected_stamp_initial, detected_stamp_finish, config.SAVE_FOLDER)
-
+                            
                         # atualiza status
                         with status_lock:
-                            print(f"[processor] atualizando status_dict com evento {resultsHold}")
                             status_dict["thread"] = {
                                 "tipo": resultsHold.get("tipo"),
                                 "descricao": resultsHold.get("descricao"),
