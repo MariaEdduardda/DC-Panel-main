@@ -4,7 +4,7 @@ import threading
 import queue
 import time
 from src.model.utils import safe_log
-from src.model.config import SOURCE_TYPE, STREAM_URL, VIDEO_PATH, WIDTH, HEIGHT, SAMPLE_RATE
+import src.model.config as config
 
 # Melhorar a velocidade de LEITURA
 
@@ -24,20 +24,20 @@ def start_video_ffmpeg():
             except:
                 pass
         try:
-            if SOURCE_TYPE == "srt":
+            if config.CONFIG["SOURCE_TYPE"] == "srt":
                 cmd = [
-                    "ffmpeg","-re","-i", STREAM_URL,
+                    "ffmpeg","-re","-i", config.CONFIG["STREAM_URL"],
                     "-an",
                     "-f", "rawvideo","-pix_fmt","bgr24",
-                    "-vf", f"scale={WIDTH}:{HEIGHT}",
+                    "-vf", f"scale={config.CONFIG['WIDTH']}:{config.CONFIG['HEIGHT']}",
                     "pipe:1"
                 ]
             else:
                 cmd = [
-                    "ffmpeg","-re","-nostdin","-i", VIDEO_PATH,
+                    "ffmpeg","-re","-nostdin","-i", config.CONFIG["VIDEO_PATH"],
                     "-an",
                     "-f", "rawvideo","-pix_fmt","bgr24",
-                    "-vf", f"scale={WIDTH}:{HEIGHT}",
+                    "-vf", f"scale={config.CONFIG['WIDTH']}:{config.CONFIG['HEIGHT']}",
                     "pipe:1"
                 ]
             video_proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, bufsize=10**8)
@@ -60,7 +60,7 @@ def read_exact(fd, size):
 
 def read_frames():
     global video_proc
-    frame_size = WIDTH * HEIGHT * 3
+    frame_size = config.CONFIG["WIDTH"] * config.CONFIG["HEIGHT"] * 3
     while True:
         try:
             if not video_proc:
@@ -71,7 +71,7 @@ def read_frames():
                 # reconectar em caso de EOF/incompleto (stream) ou encerrar para arquivo
                 safe_log("Frame incompleto/EOF no vídeo", None)
                 # se for arquivo (não srt), encerra
-                if SOURCE_TYPE != "srt":
+                if config.CONFIG["SOURCE_TYPE"] != "srt":
                     break
                 # reinicia
                 with proc_lock:

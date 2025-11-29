@@ -7,7 +7,7 @@ import src.model.audio_reader as sr
 from src.model.stream_reader import read_frames, frame_queue
 from src.model.processor import call_processor
 from src.sounds.audio import init_audio
-from src.model.config import ALARM_FILE, MODEL_PATH, STANDBY_FILE, STANDON_FILE, NUM_THREADS
+import src.model.config as config
 from src.model.monitor import monitor_status
 from src.model.status_manager import *
 from src.model.utils import safe_log, stop_recording
@@ -15,8 +15,8 @@ from src.model.recorder import record_process
 
 def init_model():
     # Inicializa o som e o modelo
-    init_audio(ALARM_FILE, STANDBY_FILE, STANDON_FILE)
-    model = YOLO(MODEL_PATH)
+    init_audio(config.CONFIG["ALARM_FILE"], config.CONFIG["STANDBY_FILE"], config.CONFIG["STANDON_FILE"])
+    model = YOLO(config.CONFIG["MODEL_PATH"])
 
     # Threads
     threading.Thread(
@@ -67,5 +67,5 @@ def init_model():
             time.sleep(1)
     except KeyboardInterrupt:
         stop_recording(record_process)
-        PROCESSOR_ON = False
+        config.CONFIG["PROCESSOR_ON"] = False
         print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Interrompido pelo usuário")

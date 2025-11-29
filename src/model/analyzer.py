@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from datetime import datetime as dt
 from skimage.metrics import structural_similarity as ssim # type: ignore
-from src.model.config import BLACK_THRESHOLD, SILENCE_THRESHOLD, CLIP_THRESHOLD, FREEZER_FRAMES_THRESHOLD
+import src.model.config as config
 from src.model.utils import safe_log
 
 last_frame_small = None
@@ -19,7 +19,7 @@ def analyze_video(frame): # Recebe frame um frame
         freeze_counter = 0
         return {"tipo": "video", "descricao": "ok"}
 
-    if brilho < BLACK_THRESHOLD:
+    if brilho < config.CONFIG["BLACK_THRESHOLD"]:
         freeze_counter = 0
         last_frame_small = None
         return {
@@ -43,7 +43,7 @@ def analyze_video(frame): # Recebe frame um frame
             freeze_counter = 0
 
         # Confirma freeze depois de X frames
-        if freeze_counter >= FREEZER_FRAMES_THRESHOLD:   # 1 segundo em 30fps
+        if freeze_counter >= config.CONFIG["FREEZE_FRAMES_THRESHOLD"]:   # 1 segundo em 30fps
             freeze_counter = 0
             last_frame_small = small.copy()
             return {
@@ -72,10 +72,10 @@ def analyze_audio(chunk): # Recebe bytes brutos do áudio
     # RMS do bloco (valor entre 0 e ~1)
     rms = float(np.sqrt(np.mean(data ** 2)))
     # taxa de samples 'clipped'
-    clipped_ratio = float(np.mean(np.abs(data) > CLIP_THRESHOLD))
+    clipped_ratio = float(np.mean(np.abs(data) > config.CONFIG["CLIP_THRESHOLD"]))
 
     # Silence detection
-    if rms < SILENCE_THRESHOLD:
+    if rms < config.CONFIG["SILENCE_THRESHOLD"]:
         return {
             "tipo": "audio",
             "descricao": "silence",

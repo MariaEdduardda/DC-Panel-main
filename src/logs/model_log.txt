@@ -1,17 +1,17 @@
-[28/11/2025 23:06:19] - FFmpeg áudio iniciado ✅
-[28/11/2025 23:06:19] - FFMpeg vídeo iniciado
+[29/11/2025 00:50:38] - FFMpeg vídeo iniciado
+[29/11/2025 00:50:38] - FFmpeg áudio iniciado ✅
 [AudioReader] EOF do áudio – finalizado 🔚
-[28/11/2025 23:06:19] - Thread de áudio encerrada.
-[28/11/2025 23:06:19] - Ocorrencia detectada (start) -> {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'}
-[28/11/2025 23:06:20] - Ocorrencia registrada: {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'} duracao=0.510s
-[28/11/2025 23:06:21] - Ocorrencia detectada
-{'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede', 'duracao': '00:00:00.509ms'}
-[28/11/2025 23:06:21] - Ocorrencia registrada: data: 2025-11-28; hora: 23:06:21;
-[28/11/2025 23:06:21] - Ocorrencia detectada (start) -> {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'}
-[28/11/2025 23:06:21] - Ocorrencia registrada: {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'} duracao=0.552s
-[28/11/2025 23:06:22] - Ocorrencia detectada
-{'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede', 'duracao': '00:00:00.551ms'}
-[28/11/2025 23:06:22] - Ocorrencia registrada: data: 2025-11-28; hora: 23:06:22;
-[28/11/2025 23:06:30] - Frame incompleto/EOF no vídeo
-[28/11/2025 23:06:30] - Leitura vídeo finalizada
-[28/11/2025 23:06:33] - Thread off-line
+[29/11/2025 00:50:38] - Thread de áudio encerrada.
+[29/11/2025 00:50:38] - Ocorrencia detectada (start) -> {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'}
+[29/11/2025 00:50:39] - Ocorrencia registrada: {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'} duracao=0.556s
+[29/11/2025 00:50:39] - Ocorrencia detectada
+{'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede', 'duracao': '00:00:00.556ms'}
+[29/11/2025 00:50:39] - Ocorrencia registrada: data: 2025-11-29; hora: 00:50:39;
+[29/11/2025 00:50:39] - Ocorrencia detectada (start) -> {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'}
+[29/11/2025 00:50:39] - Ocorrencia registrada: {'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede'} duracao=0.481s
+[29/11/2025 00:50:40] - Ocorrencia detectada
+{'tipo': 'audio', 'descricao': 'silence', 'gravidade': 'leve', 'origem': 'Rede', 'duracao': '00:00:00.480ms'}
+[29/11/2025 00:50:40] - Ocorrencia registrada: data: 2025-11-29; hora: 00:50:40;
+[29/11/2025 00:50:49] - Frame incompleto/EOF no vídeo
+[29/11/2025 00:50:49] - Leitura vídeo finalizada
+[29/11/2025 00:50:52] - Thread off-line

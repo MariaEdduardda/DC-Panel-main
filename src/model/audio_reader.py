@@ -2,7 +2,7 @@ import threading
 import subprocess
 import queue
 from datetime import datetime as dt
-from src.model.config import SAMPLE_RATE, VIDEO_PATH, CHUNK_SIZE
+import src.model.config as config
 from src.model.utils import safe_log
 
 audio_proc = None
@@ -17,7 +17,7 @@ def start_audio_ffmpeg():
                 audio_proc.kill()
 
             audio_proc = subprocess.Popen(
-                ["ffmpeg", "-i", VIDEO_PATH, "-vn", "-ac", "1", "-ar", str(SAMPLE_RATE), "-f", "s16le", "pipe:1"],
+                ["ffmpeg", "-i", config.CONFIG["VIDEO_PATH"], "-vn", "-ac", "1", "-ar", str(config.CONFIG["SAMPLE_RATE"]), "-f", "s16le", "pipe:1"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
                 bufsize=0
@@ -31,7 +31,7 @@ def start_audio_ffmpeg():
 def read_audio_pipe(pipe, q):
     while True:
         try:
-            raw = pipe.read(CHUNK_SIZE)
+            raw = pipe.read(config.CONFIG["CHUNK_SIZE"])
             if raw is None or len(raw) == 0:
                 print("[AudioReader] EOF do áudio – finalizado 🔚")
                 break

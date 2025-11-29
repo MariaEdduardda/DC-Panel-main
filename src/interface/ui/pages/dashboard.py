@@ -52,13 +52,43 @@ def render_dashboard(root):
         b.pack(side="left", padx=10)
 
     # labels dinâmicos de atualização
-    def atualizar():
-        total, video, audio = contar_ocorrencias()
-        box1.winfo_children()[1].config(text=total)
-        box2.winfo_children()[1].config(text=video)
-        box3.winfo_children()[1].config(text=audio)
-        box5.winfo_children()[1].config(text=get_uptime(START_TIME))
-        box6.winfo_children()[1].config(bg=get_status_model().get("color"), text=get_status_model().get("status"))
-        root.after(1000, atualizar)
+    def safe_set(box, child_index, value):
+        """Seta texto com segurança: só se o widget existir e tiver filhos."""
+        try:
+            if not box.winfo_exists():
+                return False
+            children = box.winfo_children()
+            if len(children) > child_index and children[child_index].winfo_exists():
+                children[child_index].config(text=value)
+                return True
+        except Exception:
+            return False
+        return False
 
-    root.after(1000, atualizar)
+    def atualizar():
+        try:
+            # se o painel foi destruído, aborta (não reagenda)
+            if not root.winfo_exists():
+                return
+
+            total, video, audio = contar_ocorrencias()
+
+            # atualiza cada box de forma segura (seus Labels são filhos do Frame)
+            safe_set(box1, 1, total)   # supondo que o segundo filho seja o Label do valor
+            safe_set(box2, 1, video)
+            safe_set(box3, 1, audio)
+            safe_set(box4, 1, START_TIME.strftime("%d/%m/%Y"))
+            # calcular tempo em execução para box5, exemplo:
+            safe_set(box5, 1, get_uptime(START_TIME))
+
+        except Exception as e:
+            # loga e aborta para evitar loop de erros
+            print("dashboard atualizar abortado:", e)
+            return
+
+        # Reagenda apenas se root ainda existir
+        if root.winfo_exists():
+            root.after(1000, atualizar)
+
+    # inicia a atualização
+    atualizar()

@@ -1,12 +1,20 @@
 import csv
 import subprocess
+import sys
 import os
 from src.database.db_functions import DB_NAME, listar_ocorrencias
 from datetime import datetime as dt
 from src.database.db_functions import criar_relatorio
 import sqlite3
-from src.model import config
+import src.model.config as config
 from src.interface.settings import COLORS_WIDGETS
+
+
+def restart():
+    python = sys.executable  # caminho do python que está rodando
+    script = sys.argv[0]    # arquivo que iniciou o programa (main.py)
+    subprocess.Popen([python, script])
+    sys.exit()  # encerra a instância atual
 
 def connect():
     return sqlite3.connect(DB_NAME)
@@ -112,7 +120,7 @@ def get_uptime(start_time):
     return f"{dias}d {horas}h {minutos}m"
 
 def get_status_model():
-    if config.PROCESSOR_ON:
+    if config.CONFIG["PROCESSOR_ON"]:
         return {"color": COLORS_WIDGETS["success"], "status": "Ativo"}
     else:
         return {"color": COLORS_WIDGETS["danger"], "status": "Inativo"}

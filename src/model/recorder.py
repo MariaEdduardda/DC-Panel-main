@@ -1,6 +1,6 @@
 import subprocess
 import time
-from src.model.config import STREAM_URL, SAVE_FOLDER, SOURCE_TYPE
+import src.model.config as config
 
 # Grava a live stream e armazena no output_path
 
@@ -11,14 +11,14 @@ def start_recording():
     global MAIN_RECORD, RECORD_START_TIME
 
     timestamp = time.strftime("%d%m%Y_%H%M%S")
-    output_path = f"{SAVE_FOLDER}/full_{timestamp}.ts"
+    output_path = f"{config.CONFIG['SAVE_FOLDER']}/full_{timestamp}.ts"
     MAIN_RECORD = output_path
     RECORD_START_TIME = time.time()
 
     ffmpeg_cmd = [
         "ffmpeg",
         "-y",  # sobrescreve arquivo se existir
-        "-i", STREAM_URL,
+        "-i", config.CONFIG["STREAM_URL"],
         "-c", "copy",  # não recodifica, grava direto
         "-f", "mpegts",  # formato que pode ser cortado enquanto grava
         output_path
@@ -28,5 +28,5 @@ def start_recording():
 
 record_process, output_path_live_stream = False, False
 
-if SOURCE_TYPE == "srt":
+if config.CONFIG["SOURCE_TYPE"] == "srt":
     record_process, output_path_live_stream = start_recording()

@@ -12,7 +12,7 @@ from src.model.analyzer import analyze_audio, analyze_video
 
 
 def call_processor(frame_queue, audio_queue, status_dict, status_lock): # Carregando Thread
-    model = YOLO(config.MODEL_PATH)
+    model = YOLO(config.CONFIG["MODEL_PATH"])
     processor(model, frame_queue, audio_queue, status_dict, status_lock)
 
 def processor(model, frame_queue, audio_queue, status_dict, status_lock):
@@ -39,7 +39,7 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
         try:
 
             cpu_load = psutil.cpu_percent(interval=0.025)
-            if cpu_load > config.CPU_LOAD_LIMIT:
+            if cpu_load > config.CONFIG["CPU_LOAD_LIMIT"]:
                 time.sleep(cpu_load_time)
                 continue
 
@@ -58,12 +58,12 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                 continue
 
             # Inferência do analyzer
-            if not raw_frame or len(raw_frame) < config.HEIGHT * config.WIDTH * 3:
+            if not raw_frame or len(raw_frame) < config.CONFIG["HEIGHT"] * config.CONFIG["WIDTH"] * 3:
                 print(f"[{dt.now().strftime('%H:%M:%S')}] - Frame vazio ou corrompido")
                 continue
 
-            if raw_frame and len(raw_frame) == config.HEIGHT * config.WIDTH * 3:
-                frame = np.frombuffer(raw_frame, dtype=np.uint8).reshape(config.HEIGHT, config.WIDTH, 3)
+            if raw_frame and len(raw_frame) == config.CONFIG["HEIGHT"] * config.CONFIG["WIDTH"] * 3:
+                frame = np.frombuffer(raw_frame, dtype=np.uint8).reshape(config.CONFIG["HEIGHT"], config.CONFIG["WIDTH"], 3)
             else:
                 # não manda pro analyze()
                 continue
@@ -117,15 +117,15 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                 if in_event:
                     detected_false_count += 1
                     # Espera N frames consecutivos sem evento para confirmar o fim
-                    if detected_false_count >= config.DETECTION_THRESHOLD:
+                    if detected_false_count >= config.CONFIG["DETECTION_THRESHOLD"]:
                         detected_stamp_finish = time.time()
                         duracao = detected_stamp_finish - detected_stamp_initial
                         print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia registrada: {resultsHold} duracao={duracao:.3f}s")
                         event_log.append((detected_stamp_initial, detected_stamp_finish))
 
                         # salvar / cortar se aplicável
-                        if config.SOURCE_TYPE == "srt" and output_path_live_stream and os.path.exists(output_path_live_stream):
-                            cortar_video(output_path_live_stream, detected_stamp_initial, detected_stamp_finish, config.SAVE_FOLDER)
+                        if config.CONFIG["SOURCE_TYPE"] == "srt" and output_path_live_stream and os.path.exists(output_path_live_stream):
+                            cortar_video(output_path_live_stream, detected_stamp_initial, detected_stamp_finish, config.CONFIG["SAVE_FOLDER"])
                             
                         # atualiza status
                         with status_lock:
@@ -146,9 +146,9 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                     # não estamos em evento, nada a fazer
                     pass
 
-            config.PROCESSOR_ON = True
+            config.CONFIG["PROCESSOR_ON"] = True
 
         except Exception as e:
             safe_log(f"Erro na detecção", e)
-            config.PROCESSOR_ON = False
+            config.CONFIG["PROCESSOR_ON"] = False
             time.sleep(0.5)
