@@ -12,13 +12,13 @@ def atualizar_logo(janela, logo_label):
         return
 
     # pega o valor atualizado de PROCESSOR_ON diretamente do módulo
-    img_file = "globo_logo_on.png" if config.PROCESSOR_ON else "globo_logo_off.png"
+    img_file = "globo_logo_on.png"
     img_path = os.path.join(PROJECT_ROOT, "src", "assets", "images", img_file)
 
     if not os.path.exists(img_path):
         logo_label.config(text="GLOBO", image="", font=("Arial", 16, "bold"))
     else:
-        img = Image.open(img_path).convert("RGBA").resize((80, 80))
+        img = Image.open(img_path).convert("RGBA").resize((100, 100))
         fundo = tuple(int(COLORS_DARK["background"].lstrip('#')[i:i+2], 16) for i in (0, 2, 4)) + (255,)
         bg = Image.new("RGBA", img.size, fundo)
         bg.paste(img, (0, 0), img)
@@ -32,7 +32,7 @@ def atualizar_logo(janela, logo_label):
 
 def set_header(janela):
     header_frame = ttk.Frame(janela)
-    header_frame.pack(fill="x", pady=5, padx=32)
+    header_frame.pack(fill="x", pady=(20, 0), padx=28)
 
     # Cria o label do logo
     logo_label = tk.Label(header_frame, bg="#2b2b2b")

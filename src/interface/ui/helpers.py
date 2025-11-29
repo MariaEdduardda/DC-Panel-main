@@ -2,9 +2,11 @@ import csv
 import subprocess
 import os
 from src.database.db_functions import DB_NAME, listar_ocorrencias
-from datetime import datetime as dt, date
+from datetime import datetime as dt
 from src.database.db_functions import criar_relatorio
 import sqlite3
+from src.model import config
+from src.interface.settings import COLORS_WIDGETS
 
 def connect():
     return sqlite3.connect(DB_NAME)
@@ -97,3 +99,20 @@ def abrir_arquivo(caminho):
 
     caminho = os.path.abspath(caminho)
     subprocess.Popen(f'explorer /select,\"{caminho}\"')
+
+def get_uptime(start_time):
+    delta = dt.now() - start_time
+
+    dias = delta.days
+    segundos = delta.seconds
+
+    horas = segundos // 3600
+    minutos = (segundos % 3600) // 60
+
+    return f"{dias}d {horas}h {minutos}m"
+
+def get_status_model():
+    if config.PROCESSOR_ON:
+        return {"color": COLORS_WIDGETS["success"], "status": "Ativo"}
+    else:
+        return {"color": COLORS_WIDGETS["danger"], "status": "Inativo"}

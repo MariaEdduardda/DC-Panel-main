@@ -12,6 +12,16 @@ COLORS_DARK = {
     "table_background_zebra_2": "#3C3C3C",
 }
 
+COLORS_WIDGETS = {
+    "primary": "#009AFF",
+    "secondary": "#1B73FE",
+    "tertiary": "#2860FE",
+    "quaternary": "#354CFD",
+    "success": "#22bb33",
+    "warning": "#F8E71C",
+    "danger": "#bb2124",
+}
+
 FONTS = {
     "default": ("Helvetica", 10),
     "header": ("Arial", 10, "bold"),
