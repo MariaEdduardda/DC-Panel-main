@@ -30,8 +30,7 @@ CONFIG = {
 
     # Detecção (YOLO)
     "YOLO_CONF": 0.70,
-    "DETECTION_THRESHOLD": 5,
-    "OCCURRENCE_END_THRESHOLD": 5,
+    "DETECTION_THRESHOLD": 10, # Número de detecções para considerar falha
 
     # Áudio Analyze
     "SILENCE_THRESHOLD": 0.05,

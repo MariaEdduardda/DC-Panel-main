@@ -4,16 +4,42 @@ from datetime import datetime as dt, date
 
 def save_DB(values):
     # Salva no banco
+    gravidade = "Não classificada"
+    match values["descricao"]:
+        case "silence":
+            if values["duracao"] <= 60:
+                gravidade = "mínima"
+            else:
+                gravidade = "X"
+            pass
+        case "clipping":
+            if values["duracao"] <= 60:
+                gravidade = "mínima"
+            else:
+                gravidade = "X"
+            pass
+        case "freeze":
+            if values["duracao"] <= 4:
+                gravidade = "C"
+            elif values["duracao"] <= 60:
+                gravidade = "X"
+            pass
+        case "fade":
+            if values["duracao"] <= 60:
+                gravidade = "mínima"
+            else:
+                gravidade = "X"
+            pass
     criar_ocorrencia(
         tipo=values["tipo"],
         descricao=values["descricao"],
-        gravidade=values["gravidade"],
+        gravidade=gravidade,
         origem=values["origem"],
         data=date.today(),
         hora=dt.now().strftime("%H:%M:%S"),
-        duracao=values["duracao"],
+        duracao=f"{time.strftime('%H:%M:%S', time.gmtime(values['duracao']))}.{int((values['duracao'] % 1) * 1000):03d}ms",
         usuario_id="0"
-            )
+    )
     print(f"[{dt.now().strftime('%d/%m/%Y %H:%M:%S')}] - Ocorrencia registrada: data: {date.today()}; hora: {dt.now().strftime('%H:%M:%S')};")
 
 def monitor_status(status_dict, status_lock):

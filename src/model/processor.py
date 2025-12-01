@@ -84,10 +84,10 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
 
             # Decide qual evento (prioriza áudio)
             result_final = None
-            if audio_result:
-                result_final = audio_result
-            elif video_result and video_result.get("descricao") != "ok":
+            if video_result and video_result.get("descricao") != "ok":
                 result_final = video_result
+            elif audio_result:
+                result_final = audio_result
 
             # -------------------------
             # TRATAMENTO DE EVENTOS
@@ -134,7 +134,7 @@ def processor(model, frame_queue, audio_queue, status_dict, status_lock):
                                 "descricao": resultsHold.get("descricao"),
                                 "gravidade": resultsHold.get("gravidade"),
                                 "origem": resultsHold.get("origem"),
-                                "duracao": f"{time.strftime('%H:%M:%S', time.gmtime(duracao))}.{int((duracao % 1) * 1000):03d}ms",
+                                "duracao": duracao,
                             }
 
                         # reset state

@@ -21,7 +21,7 @@ def create_database():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             tipo TEXT CHECK(tipo IN ('audio', 'video', 'automacao', 'transmissao', 'logo')) NOT NULL,
             descricao TEXT NOT NULL,
-            gravidade TEXT CHECK(gravidade IN ('leve', 'media', 'grave', 'gravissima')) NOT NULL,
+            gravidade TEXT NOT NULL,
             origem TEXT CHECK(origem IN ('Rede', 'RSPO', 'G5')) NOT NULL,
             data TEXT NOT NULL,
             hora TEXT NOT NULL,

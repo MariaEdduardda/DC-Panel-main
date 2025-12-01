@@ -25,7 +25,7 @@ def analyze_video(frame): # Recebe frame um frame
         return {
             "tipo": "video",
             "descricao": "fade",
-            "gravidade": "leve",
+            "gravidade": "",
             "origem": "Rede"
         }
 
@@ -49,7 +49,7 @@ def analyze_video(frame): # Recebe frame um frame
             return {
                 "tipo": "video",
                 "descricao": "freeze",
-                "gravidade": "leve",
+                "gravidade": "",
                 "origem": "Rede"
             }
 
@@ -79,7 +79,7 @@ def analyze_audio(chunk): # Recebe bytes brutos do áudio
         return {
             "tipo": "audio",
             "descricao": "silence",
-            "gravidade": "leve",
+            "gravidade": "",
             "origem": "Rede"
         }
 
@@ -88,7 +88,7 @@ def analyze_audio(chunk): # Recebe bytes brutos do áudio
         return {
             "tipo": "audio",
             "descricao": "clipping",
-            "gravidade": "moderado",
+            "gravidade": "",
             "origem": "Rede"
         }
     # sem evento relevante
